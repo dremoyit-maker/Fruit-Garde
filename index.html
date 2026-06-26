@@ -49,6 +49,8 @@
     <!-- GSAP for Animations -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <!-- QRCode.js - Local QR Code Generator (No Internet Required) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* Custom Styles & Animation Utilities */
         body {
@@ -375,11 +377,11 @@
                 </div>
                 <h2 class="text-3xl font-bold font-cursive text-brandForest mb-2">ফল কুইজ চ্যালেঞ্জ</h2>
                 <p class="text-brandForest/70 text-xs sm:text-sm mb-4">প্রদর্শনীটি ঘুরে আপনি কতটুকু শিখলেন, তা যাচাই করুন!</p>
-                <!-- QR Code to scan and play on mobile -->
+                <!-- QR Code to scan and play on mobile (Locally Generated) -->
                 <div class="bg-brandCream/50 border border-brandLeaf/10 rounded-2xl p-3 flex flex-col items-center gap-2 max-w-[160px] shadow-sm mb-2">
                     <span class="text-[10px] text-brandLeaf font-bold text-center">স্ক্যান করে মোবাইলে খেলুন</span>
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fruit.dremoy.com/%23quiz" alt="Quiz QR Code" class="w-20 h-20">
-                    <button onclick="downloadQR('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://fruit.dremoy.com/%23quiz', 'Quiz')" class="text-[10px] bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm transition-all mt-1">
+                    <div id="quiz-qr-canvas" class="w-20 h-20 flex items-center justify-center"></div>
+                    <button onclick="downloadQRCanvas('quiz-qr-canvas', 'Quiz')" class="text-[10px] bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm transition-all mt-1">
                         <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12 12 16.5m0 0 4.5-4.5M12 16.5V3"/></svg>
                         <span>ডাউনলোড</span>
                     </button>
@@ -1301,20 +1303,34 @@
             `;
         }
 
-        function downloadQR(url, name) {
-            fetch(url)
-                .then(res => res.blob())
-                .then(blob => {
-                    const a = document.createElement('a');
-                    a.href = URL.createObjectURL(blob);
-                    a.download = `${name}-QR.png`;
-                    document.body.appendChild(a);
-                    a.click();
-                    document.body.removeChild(a);
-                })
-                .catch(() => {
-                    window.open(url, '_blank');
-                });
+        function downloadQRCanvas(containerId, name) {
+            const container = document.getElementById(containerId);
+            if (!container) return;
+            // QRCode.js generates an <img> (with data URL) or a <canvas>
+            const canvas = container.querySelector('canvas');
+            const img = container.querySelector('img');
+            let dataUrl = null;
+            if (canvas) {
+                dataUrl = canvas.toDataURL('image/png');
+            } else if (img) {
+                // Fallback: draw img onto a new canvas
+                const tmpCanvas = document.createElement('canvas');
+                tmpCanvas.width = 300;
+                tmpCanvas.height = 300;
+                const ctx = tmpCanvas.getContext('2d');
+                ctx.drawImage(img, 0, 0, 300, 300);
+                dataUrl = tmpCanvas.toDataURL('image/png');
+            }
+            if (dataUrl) {
+                const a = document.createElement('a');
+                a.href = dataUrl;
+                a.download = `${name}-QR.png`;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            } else {
+                alert('QR কোড তৈরি হয়নি। পেজটি রিলোড করে আবার চেষ্টা করুন।');
+            }
         }
 
         // Global scroll progress & dynamic header effects
@@ -1370,6 +1386,23 @@
             selectRandomQuestions();
             renderQuiz();
             renderTeam(teamData);
+
+            // Generate Quiz QR Code locally
+            setTimeout(() => {
+                const quizQrContainer = document.getElementById('quiz-qr-canvas');
+                if (quizQrContainer && typeof QRCode !== 'undefined') {
+                    quizQrContainer.innerHTML = '';
+                    const quizUrl = 'https://fruit-garden.dremoy.com/#quiz';
+                    new QRCode(quizQrContainer, {
+                        text: quizUrl,
+                        width: 80,
+                        height: 80,
+                        colorDark: '#2D3A22',
+                        colorLight: '#FFFFFF',
+                        correctLevel: QRCode.CorrectLevel.M
+                    });
+                }
+            }, 100);
             rotateAboutImages();
 
             // Setup Lucide icons replacement
@@ -1530,9 +1563,9 @@
                             </div>
                             <div class="bg-white border border-brandLeaf/20 rounded-2xl p-4 w-full flex flex-col items-center shadow-sm">
                                 <span class="text-xs text-brandLeaf font-bold block mb-2">স্টল কিউআর কোড (প্রিন্ট লেবেল)</span>
-                                <img id="qr-image-${fruit.id}" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://fruit.dremoy.com/%23${fruit.id}" alt="${fruit.name} QR Code" loading="lazy" class="w-24 h-24 mb-2">
-                                <span class="text-xs text-brandForest/50 font-bold block mb-3">fruit.dremoy.com/#${fruit.id}</span>
-                                <button onclick="downloadQR('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://fruit.dremoy.com/%23${fruit.id}', '${fruit.name}')" class="text-xs bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm transition-all">
+                                <div id="qr-canvas-${fruit.id}" class="w-24 h-24 mb-2 flex items-center justify-center"></div>
+                                <span class="text-xs text-brandForest/50 font-bold block mb-3">fruit-garden.dremoy.com/#${fruit.id}</span>
+                                <button onclick="downloadQRCanvas('qr-canvas-${fruit.id}', '${fruit.name}')" class="text-xs bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm transition-all">
                                     <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12 12 16.5m0 0 4.5-4.5M12 16.5V3"/></svg>
                                     <span>কোড ডাউনলোড</span>
                                 </button>
@@ -1594,6 +1627,22 @@
                 </div>
             `;
             lucide.createIcons();
+
+            // Generate QR Code locally using QRCode.js
+            const qrContainerId = `qr-canvas-${fruit.id}`;
+            const qrContainer = document.getElementById(qrContainerId);
+            if (qrContainer && typeof QRCode !== 'undefined') {
+                qrContainer.innerHTML = ''; // Clear previous
+                const qrUrl = 'https://fruit-garden.dremoy.com/#' + fruit.id;
+                new QRCode(qrContainer, {
+                    text: qrUrl,
+                    width: 96,
+                    height: 96,
+                    colorDark: '#2D3A22',
+                    colorLight: '#FFFFFF',
+                    correctLevel: QRCode.CorrectLevel.M
+                });
+            }
         }
 
         // Category filter trigger
