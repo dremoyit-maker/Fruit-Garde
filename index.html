@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="bn" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="ফল বাগান — বাংলাদেশের দেশীয় ও বিদেশী ফলের ডিজিটাল প্রদর্শনী। পুষ্টিগুণ, মৌসুম, ইতিহাস ও ফল কুইজ।">
+    <meta name="theme-color" content="#4E7844">
+    <link rel="dns-prefetch" href="//cdn.tailwindcss.com">
+    <link rel="dns-prefetch" href="//unpkg.com">
+    <link rel="dns-prefetch" href="//cdnjs.cloudflare.com">
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Ccircle cx='16' cy='16' r='14' fill='%23E9EFE6'/%3E%3Cpath d='M16 24V14' stroke='%234E7844' stroke-width='2' stroke-linecap='round'/%3E%3Cpath d='M16 17c-2.5-2.5-4.5-2-5-3.5s2.5-2.5 5 3.5' stroke='%234E7844' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M16 16c-2.5-2.5 4.5-2 5-3.5s-2.5-2.5-5 3.5' stroke='%234E7844' stroke-width='2' stroke-linecap='round' stroke-linejoin='round' fill='none'/%3E%3Cpath d='M12 24h8' stroke='%234E7844' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E">
+    <title>ফল বাগান - বাংলার ফল, বাংলার গল্প</title>
+    <script>
+        window.onerror = function(msg, url, line, col, error) {
+            var extra = !col ? '' : '\nColumn: ' + col;
+            extra += !error ? '' : '\nError: ' + error;
+            alert("JavaScript Error detected:\n\nMessage: " + msg + "\nLine: " + line + extra + "\n\nPlease reload the page or check the connection.");
+            return false;
+        };
+    </script>
+    <!-- Google Fonts: Hind Siliguri -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Galada&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+    <noscript><link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@300;400;500;600;700&family=Galada&display=swap" rel="stylesheet"></noscript>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brandBg: '#FAF8F3',
+                        brandCream: '#F7F4EB',
+                        brandForest: '#2D3A22',
+                        brandLeaf: '#4E7844',
+                        brandGold: '#F2A900',
+                    },
+                    fontFamily: {
+                        sans: ['Hind Siliguri', 'sans-serif'],
+                        cursive: ['Galada', 'cursive'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest" defer></script>
+    <!-- GSAP for Animations -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" defer></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js" defer></script>
+    <style>
+        /* Custom Styles & Animation Utilities */
+        body {
+            background-color: #FAF8F3;
+            color: #2D3A22;
+        }
+        .leaf-particle {
+            position: absolute;
+            pointer-events: none;
+            opacity: 0.6;
+            z-index: 10;
+        }
+        .highlight-glow {
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+        @keyframes glow {
+            0% {
+                box-shadow: 0 0 5px rgba(78, 120, 68, 0.4), 0 0 10px rgba(78, 120, 68, 0.2);
+                border-color: #4E7844;
+            }
+            100% {
+                box-shadow: 0 0 20px rgba(242, 169, 0, 0.8), 0 0 30px rgba(242, 169, 0, 0.4);
+                border-color: #F2A900;
+            }
+        }
+        /* Hide scrollbar but keep functionality */
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        @keyframes bounce-slow {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-6px); }
+        }
+        .bounce-slow {
+            animation: bounce-slow 2s infinite ease-in-out;
+        }
+        @keyframes pulse-soft {
+            0%, 100% { transform: scale(1); box-shadow: 0 0 0 rgba(78, 120, 68, 0); }
+            50% { transform: scale(1.02); box-shadow: 0 0 15px rgba(78, 120, 68, 0.12); }
+        }
+        .pulse-soft {
+            animation: pulse-soft 3s infinite ease-in-out;
+        }
+        .botanical-bg-texture {
+            background-image: radial-gradient(circle at 10% 20%, rgba(78, 120, 68, 0.04) 0%, transparent 45%),
+                              radial-gradient(circle at 90% 80%, rgba(242, 169, 0, 0.03) 0%, transparent 45%);
+        }
+        .hover-tilt:hover i {
+            transform: rotate(15deg) scale(1.1);
+        }
+        .hover-tilt i {
+            transition: transform 0.3s ease;
+        }
+        .premium-shadow-sm {
+            box-shadow: 0 4px 15px rgba(45, 58, 34, 0.02);
+            border: 1px solid rgba(78, 120, 68, 0.06);
+        }
+        .premium-shadow-md {
+            box-shadow: 0 8px 25px rgba(45, 58, 34, 0.04);
+            border: 1px solid rgba(78, 120, 68, 0.08);
+        }
+        .premium-shadow-lg {
+            box-shadow: 0 16px 45px rgba(45, 58, 34, 0.06);
+            border: 1px solid rgba(78, 120, 68, 0.1);
+        }
+
+        /* Dynamic Theme Transitions */
+        .theme-overlay {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+            pointer-events: none;
+            z-index: 1;
+        }
+        .theme-overlay.active {
+            opacity: 0.15;
+        }
+
+        /* Botanical Card styles */
+        .fruit-card {
+            flex: 0 0 280px;
+            scroll-snap-align: start;
+        }
+        @media (min-width: 640px) {
+            .fruit-card {
+                flex: 0 0 310px;
+            }
+        }
+        .carousel-container {
+            display: flex;
+            gap: 1.5rem;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 1rem 0.25rem 2rem 0.25rem;
+        }
+
+        /* Sunbeam Effect */
+        .sunbeam {
+            position: absolute;
+            top: -20%;
+            left: 20%;
+            width: 60%;
+            height: 140%;
+            background: radial-gradient(circle, rgba(255,253,245,0.4) 0%, transparent 70%);
+            transform: rotate(-15deg);
+            pointer-events: none;
+            z-index: 2;
+            mix-blend-mode: overlay;
+        }
+
+        /* Custom scrollbars for details */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 4px;
+            height: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: rgba(78, 120, 68, 0.2);
+            border-radius: 9999px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-brandLeaf selection:text-white overflow-x-hidden">
+
+    <!-- Top Scroll Progress Bar -->
+    <div id="progress-bar" class="fixed top-0 left-0 h-1 bg-brandLeaf z-50 transition-all duration-100" style="width: 0%;"></div>
+
+    <!-- Header / Sticky Navigation -->
+    <header id="main-header" class="fixed top-0 inset-x-0 bg-transparent z-40 transition-all duration-300 border-b border-transparent">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+            <a href="#" class="flex items-center gap-2 hover-tilt">
+                <div class="w-10 h-10 rounded-full bg-brandLeaf/10 flex items-center justify-center">
+                    <i data-lucide="sprout" class="w-6 h-6 text-brandLeaf"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold font-cursive text-brandForest tracking-wide">ফল বাগান</h1>
+                    <p class="text-xs text-brandLeaf font-medium">বাংলার ফল, বাংলার গল্প</p>
+                </div>
+            </a>
+            <!-- Desktop Nav Links -->
+            <nav class="hidden md:flex items-center gap-6 text-sm font-semibold text-brandForest/90">
+                <a href="#about" class="hover:text-brandLeaf transition-colors">প্রদর্শনী পরিচিতি</a>
+                <a href="#calendar" class="hover:text-brandLeaf transition-colors">ফলের ক্যালেন্ডার</a>
+                <a href="#nutrition" class="hover:text-brandLeaf transition-colors">পুষ্টি তুলনা</a>
+                <a href="#explore" class="hover:text-brandLeaf transition-colors">ফল অন্বেষণ</a>
+                <a href="#quiz" class="hover:text-brandLeaf transition-colors">ফল কুইজ</a>
+                <a href="#team" class="hover:text-brandLeaf transition-colors">গবেষক দল</a>
+            </nav>
+            <!-- Search & Actions -->
+            <div class="flex items-center gap-2">
+                <div class="relative hidden sm:block">
+                    <input type="text" id="global-search" placeholder="ফল খুঁজুন..." class="w-48 bg-brandCream border border-brandLeaf/20 rounded-full px-4 py-1.5 text-xs text-brandForest focus:outline-none focus:border-brandLeaf focus:w-60 transition-all">
+                    <i data-lucide="search" class="w-4 h-4 text-brandForest/60 absolute right-3 top-2"></i>
+                </div>
+                <button id="mobile-menu-btn" class="md:hidden p-2 rounded-full hover:bg-brandCream transition-colors">
+                    <i data-lucide="menu" class="w-6 h-6 text-brandForest"></i>
+                </button>
+            </div>
+        </div>
+        <!-- Mobile Dropdown Nav -->
+        <div id="mobile-menu" class="hidden md:hidden bg-brandBg/95 backdrop-blur-md border-t border-brandCream px-4 py-3 flex flex-col gap-3 font-semibold shadow-inner text-sm">
+            <a href="#about" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">প্রদর্শনী পরিচিতি</a>
+            <a href="#calendar" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">ফলের ক্যালেন্ডার</a>
+            <a href="#nutrition" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">পুষ্টি তুলনা</a>
+            <a href="#explore" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">ফল অন্বেষণ</a>
+            <a href="#quiz" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">ফল কুইজ</a>
+            <a href="#team" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">গবেষক দল</a>
+        </div>
+    </header>
+
+    <!-- About Section -->
+    <section id="about" class="bg-brandCream pt-28 pb-20 px-4 scroll-mt-16">
+        <div class="max-w-5xl mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="text-3xl font-bold text-brandForest mb-6 font-cursive border-b border-brandLeaf/20 pb-4 inline-block">আমাদের ফল প্রদর্শনী</h2>
+                    <p class="text-brandForest text-justify leading-relaxed mb-5 text-base sm:text-lg font-medium">
+                        আমাদের বিদ্যালয়ের শিক্ষার্থীদের একটি স্বতঃস্ফূর্ত ও শিক্ষামূলক উদ্যোগ হলো <strong class="text-brandLeaf font-bold">ফল বাগান</strong>। এটি কেবল একটি প্রদর্শনী নয়, বরং আমাদের ঐতিহ্যবাহী ফলসমূহ নিয়ে আধুনিক বৈজ্ঞানিক জ্ঞান এবং শৈশব স্মৃতির একটি সুন্দর সেতুবন্ধন।
+                    </p>
+                    <p class="text-brandForest text-justify leading-relaxed mb-8 text-base sm:text-lg font-medium">
+                        কিউআর কোড স্ক্যান করে দর্শনার্থীরা ফলের স্টলে দাঁড়িয়েই তার পুষ্টিগুণ, উৎপত্তি ও নানা শৈশব স্মৃতি জানতে পারবেন। এটি আমাদের বাংলার বৈচিত্র্যময় প্রকৃতিকে ডিজিটাল উপায়ে ভালোবাসার একটি প্রয়াস।
+                    </p>
+                    <div id="about-stats-container" class="grid grid-cols-3 gap-3 sm:gap-4">
+                        <div class="bg-white p-3 sm:p-4 rounded-2xl premium-shadow-sm text-center">
+                            <span class="text-brandLeaf font-bold text-lg sm:text-2xl block" id="about-stat-val-1">২৯+</span>
+                            <span class="text-[10px] sm:text-xs text-brandForest/70 font-semibold block mt-1" id="about-stat-lbl-1">বিশ্লেষিত ফল</span>
+                        </div>
+                        <div class="bg-white p-3 sm:p-4 rounded-2xl premium-shadow-sm text-center">
+                            <span class="text-brandLeaf font-bold text-lg sm:text-2xl block" id="about-stat-val-2">১০০%</span>
+                            <span class="text-[10px] sm:text-xs text-brandForest/70 font-semibold block mt-1" id="about-stat-lbl-2">শিক্ষামূলক ও স্মৃতিময়</span>
+                        </div>
+                        <div class="bg-white p-3 sm:p-4 rounded-2xl premium-shadow-sm text-center">
+                            <span class="text-brandLeaf font-bold text-lg sm:text-2xl block" id="about-stat-val-3">১০+</span>
+                            <span class="text-[10px] sm:text-xs text-brandForest/70 font-semibold block mt-1" id="about-stat-lbl-3">মজার কুইজ প্রশ্ন</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="relative rounded-3xl overflow-hidden premium-shadow-lg aspect-video md:aspect-square">
+                    <img src="assets/images/hero_banner.png" alt="ফল প্রদর্শনী ব্যানার" class="object-cover w-full h-full">
+                    <!-- Fruit Name Badge -->
+                    <div id="about-fruit-name-badge" class="absolute bottom-4 left-4 bg-brandForest/85 backdrop-blur-md text-brandCream px-4 py-2 rounded-xl text-xs sm:text-sm font-bold shadow-md z-10 border border-brandLeaf/20 transition-all duration-300">
+                        ফল প্রদর্শনী
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Seasonal Fruit Calendar Section -->
+    <section id="calendar" class="py-20 px-4 max-w-5xl mx-auto scroll-mt-16">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl font-bold font-cursive text-brandForest mb-4">বাংলার ফলের ক্যালেন্ডার</h2>
+            <p class="text-brandForest/70 text-sm max-w-md mx-auto">ষড়ঋতুর বাংলাদেশে কোন ঋতুতে কোন ফলের সমারোহ থাকে, তা একনজরে দেখে নিন।</p>
+        </div>
+        <!-- Calendar Tabs -->
+        <div id="calendar-tabs" class="flex flex-wrap justify-center gap-2 mb-8">
+            <button onclick="filterCalendar('Summer', this)" class="calendar-tab-btn active bg-brandLeaf text-white px-5 py-2 rounded-full text-sm font-semibold transition-all">গ্রীষ্মকাল</button>
+            <button onclick="filterCalendar('Rainy', this)" class="calendar-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-5 py-2 rounded-full text-sm font-semibold transition-all">বর্ষাকাল</button>
+            <button onclick="filterCalendar('Autumn', this)" class="calendar-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-5 py-2 rounded-full text-sm font-semibold transition-all">শরৎ-হেমন্তকাল</button>
+            <button onclick="filterCalendar('Winter', this)" class="calendar-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-5 py-2 rounded-full text-sm font-semibold transition-all">শীত-বসন্তকাল</button>
+        </div>
+        <!-- Calendar Display Card -->
+        <div id="calendar-card" class="bg-white p-6 sm:p-8 rounded-3xl premium-shadow-md max-w-2xl mx-auto transition-all duration-300">
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-full bg-brandGold/10 flex items-center justify-center text-brandGold">
+                    <i data-lucide="sun" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 id="cal-season-title" class="text-xl font-bold text-brandForest">গ্রীষ্মকাল (জ্যৈষ্ঠ - আষাঢ়)</h3>
+                    <p id="cal-season-desc" class="text-xs text-brandForest/60">মধু মাস নামে পরিচিত এই ঋতুতে রসালো ও সুমিষ্ট ফলের মেলা বসে।</p>
+                </div>
+            </div>
+            <div class="mt-6 border-t border-brandCream pt-4">
+                <span class="text-xs font-bold text-brandLeaf uppercase tracking-wider block mb-4 text-center sm:text-left">প্রধান ফলসমূহ (বিস্তারিত দেখতে ক্লিক করুন):</span>
+                <div id="cal-fruits" class="flex flex-wrap gap-4 justify-center sm:justify-start">
+                    <!-- Dynamically Populated with Large Image Cards -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Nutrition Comparison Section -->
+    <section id="nutrition" class="bg-brandCream py-20 px-4 scroll-mt-16">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold font-cursive text-brandForest mb-4">পুষ্টির তুলনা (Nutrition Comparison)</h2>
+                <p class="text-brandForest/70 text-sm max-w-md mx-auto">বিভিন্ন পুষ্টি উপাদানে কোন ফলগুলো সবচেয়ে বেশি অবদান রাখে তা জানুন।</p>
+            </div>
+            <!-- Nutrition Filter Pills -->
+            <div class="flex flex-wrap justify-center gap-2 mb-8">
+                <button onclick="filterNutrition('vitamin-c', this)" class="nut-tab-btn active bg-brandLeaf text-white px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">সর্বোচ্চ ভিটামিন সি</button>
+                <button onclick="filterNutrition('fiber', this)" class="nut-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">সর্বোচ্চ আঁশযুক্ত</button>
+                <button onclick="filterNutrition('vitamin-a', this)" class="nut-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">ভিটামিন এ সমৃদ্ধ</button>
+                <button onclick="filterNutrition('antioxidant', this)" class="nut-tab-btn bg-white border border-brandLeaf/20 text-brandForest px-4 py-2 rounded-full text-xs sm:text-sm font-semibold transition-all">অ্যান্টিঅক্সিডেন্ট</button>
+            </div>
+            <!-- Results Grid -->
+            <div id="nutrition-results" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6">
+                <!-- Dynamically Populated -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Fruit Exploration Gallery Section -->
+    <section id="explore" class="py-20 px-4 max-w-6xl mx-auto scroll-mt-16">
+        <div class="text-center mb-12">
+            <h2 class="text-4xl font-bold font-cursive text-brandForest mb-4">ফলের বাগান অন্বেষণ</h2>
+            <p class="text-brandForest/70 text-sm max-w-md mx-auto">লিস্ট থেকে ফলের নাম সার্চ করে অথবা ক্যাটাগরি ফিল্টার করে বিস্তারিত বিবরণী দেখুন।</p>
+        </div>
+
+        <!-- Filter controls -->
+        <div class="bg-white p-6 rounded-3xl premium-shadow-sm mb-12 flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div class="flex-1 max-w-md relative">
+                <input type="text" id="gallery-search" placeholder="ফলের নাম দিয়ে সার্চ করুন..." class="w-full bg-brandBg border border-brandLeaf/20 rounded-full px-5 py-3 text-sm text-brandForest focus:outline-none focus:border-brandLeaf transition-all">
+                <i data-lucide="search" class="w-5 h-5 text-brandForest/60 absolute right-4 top-3.5"></i>
+            </div>
+            <div class="flex flex-wrap gap-2 overflow-x-auto no-scrollbar py-1">
+                <button onclick="filterCategory('All', this)" class="cat-filter-btn active bg-brandLeaf text-white px-4 py-2 rounded-full text-xs font-semibold transition-all">সব ফল</button>
+                <button onclick="filterCategory('Native Fruits', this)" class="cat-filter-btn bg-brandBg border border-brandLeaf/15 text-brandForest px-4 py-2 rounded-full text-xs font-semibold transition-all">দেশী ফল</button>
+                <button onclick="filterCategory('Seasonal Fruits', this)" class="cat-filter-btn bg-brandBg border border-brandLeaf/15 text-brandForest px-4 py-2 rounded-full text-xs font-semibold transition-all">ঋতুভিত্তিক</button>
+                <button onclick="filterCategory('Sweet Fruits', this)" class="cat-filter-btn bg-brandBg border border-brandLeaf/15 text-brandForest px-4 py-2 rounded-full text-xs font-semibold transition-all">মিষ্টি ফল</button>
+                <button onclick="filterCategory('Sour Fruits', this)" class="cat-filter-btn bg-brandBg border border-brandLeaf/15 text-brandForest px-4 py-2 rounded-full text-xs font-semibold transition-all">টক ফল</button>
+                <button onclick="filterCategory('Medicinal Fruits', this)" class="cat-filter-btn bg-brandBg border border-brandLeaf/15 text-brandForest px-4 py-2 rounded-full text-xs font-semibold transition-all">ভেষজ ফল</button>
+            </div>
+        </div>
+
+        <!-- Gallery Grid -->
+        <div id="fruits-gallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6">
+            <!-- Dynamically populated -->
+        </div>
+    </section>
+
+    <!-- Individual Fruit Details Display Container -->
+    <section id="fruit-details-section" class="bg-brandCream/40 border-t border-b border-brandCream py-20 px-4 scroll-mt-16">
+        <div class="max-w-4xl mx-auto">
+            <div class="text-center mb-8">
+                <span class="text-xs uppercase font-bold text-brandLeaf tracking-widest block mb-2">স্টল কিউআর লিঙ্ক হাইলাইট</span>
+                <h2 class="text-3xl font-bold font-cursive text-brandForest">বিস্তারিত ফলের প্রদর্শনী</h2>
+            </div>
+            <!-- Active Fruit Detail Card Wrapper -->
+            <div id="active-fruit-card-target" class="transition-all duration-500">
+                <!-- Populated dynamically via JS -->
+                <div class="bg-white p-6 sm:p-12 rounded-3xl premium-shadow-md text-center max-w-lg mx-auto">
+                    <i data-lucide="qr-code" class="w-16 h-16 text-brandLeaf/40 mx-auto mb-4"></i>
+                    <p class="text-brandForest/60 text-sm font-semibold">উপরে গ্যালারি থেকে যেকোনো ফলের কার্ডে ক্লিক করুন অথবা ফিজিক্যাল প্রদর্শনীতে থাকা QR কোডটি স্ক্যান করে বিস্তারিত জানুন।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Fruit Quiz Section -->
+    <section id="quiz" class="py-20 px-4 max-w-3xl mx-auto scroll-mt-16 relative">
+        <div class="bg-white p-8 sm:p-12 rounded-3xl premium-shadow-lg">
+            <div class="text-center mb-8 flex flex-col items-center">
+                <div class="w-12 h-12 rounded-full bg-brandGold/10 flex items-center justify-center text-brandGold mb-3">
+                    <i data-lucide="trophy" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-3xl font-bold font-cursive text-brandForest mb-2">ফল কুইজ চ্যালেঞ্জ</h2>
+                <p class="text-brandForest/70 text-xs sm:text-sm mb-4">প্রদর্শনীটি ঘুরে আপনি কতটুকু শিখলেন, তা যাচাই করুন!</p>
+                <!-- QR Code to scan and play on mobile -->
+                <div class="bg-brandCream/50 border border-brandLeaf/10 rounded-2xl p-3 flex flex-col items-center gap-2 max-w-[160px] shadow-sm mb-2">
+                    <span class="text-[10px] text-brandLeaf font-bold text-center">স্ক্যান করে মোবাইলে খেলুন</span>
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://fruit.dremoy.com/%23quiz" alt="Quiz QR Code" class="w-20 h-20">
+                    <button onclick="downloadQR('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://fruit.dremoy.com/%23quiz', 'Quiz')" class="text-[10px] bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-2.5 py-1 rounded-lg flex items-center gap-1 shadow-sm transition-all mt-1">
+                        <svg class="w-3 h-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12 12 16.5m0 0 4.5-4.5M12 16.5V3"/></svg>
+                        <span>ডাউনলোড</span>
+                    </button>
+                </div>
+            </div>
+            <!-- Quiz Body -->
+            <div id="quiz-container">
+                <!-- Dynamically generated quiz questions -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Team Section -->
+    <section id="team" class="bg-brandCream py-20 px-4 scroll-mt-16">
+        <div class="max-w-5xl mx-auto">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl font-bold font-cursive text-brandForest mb-4">আমাদের গবেষক দল</h2>
+                <p class="text-brandForest/70 text-sm max-w-md mx-auto">বিদ্যালয়ের এই বিশেষ প্রদর্শনী সফল করতে উপদেষ্টা শিক্ষক ও শিক্ষার্থী সদস্যদের সমন্বিত প্রয়াস।</p>
+            </div>
+            <!-- Team members load -->
+            <div id="team-container" class="space-y-12">
+                <!-- Dynamically populated advisors & students -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-brandForest text-brandCream py-12 px-4 border-t border-brandLeaf/20">
+        <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+            <div class="flex items-center gap-2">
+                <div class="w-10 h-10 rounded-full bg-white/10 flex items-center justify-center">
+                    <i data-lucide="sprout" class="w-6 h-6 text-brandGold"></i>
+                </div>
+                <div>
+                    <h4 class="text-lg font-bold font-cursive text-white">ফল বাগান</h4>
+                    <p class="text-xs text-brandCream/60">বিদ্যালয় ফল প্রদর্শনী ডিজিটাল অভিজ্ঞতা</p>
+                </div>
+            </div>
+            <div class="text-center md:text-right flex flex-col items-center md:items-end gap-1">
+                <p class="text-xs text-brandCream/80 flex items-center gap-1 font-semibold">
+                    <span>Developed with</span>
+                    <span class="text-red-500 animate-pulse">❤️</span>
+                    <span>by</span>
+                    <a href="https://dremoy.com" target="_blank" class="text-white hover:text-brandGold transition-colors font-bold tracking-wide">Dremoy</a>
+                </p>
+                <p class="text-[10px] text-brandCream/40 mt-1">
+                    &copy; ২০২৬ ফল বাগান প্রজেক্ট। সর্বস্বত্ব সংরক্ষিত। বাংলার ফল, বাংলার গল্প।
+                </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Floating View All Fruits Button & QR Back Link -->
+    <div id="floating-qr-control" class="fixed bottom-6 right-6 z-40 hidden flex-col gap-2">
+        <a href="#explore" class="bg-brandLeaf hover:bg-brandLeaf/95 text-white font-semibold text-xs sm:text-sm px-5 py-3 rounded-full shadow-lg flex items-center gap-2 transition-all">
+            <i data-lucide="grid" class="w-4 h-4"></i>
+            <span>সকল ফল দেখুন</span>
+        </a>
+    </div>
+
+    <!-- Script engine for Vanilla JS logic -->
+    <script>
+        let fruitsData = [
+  {
+    "id": "mango",
+    "name": "আম",
+    "englishName": "Mango",
+    "scientificName": "Mangifera indica",
+    "localName": "ফলের রাজা",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits"],
+    "season": "গ্রীষ্মকাল (জ্যৈষ্ঠ-আষাঢ়)",
+    "origin": "রাজশাহী, চাঁপাইনবাবগঞ্জ, নওগাঁ",
+    "availability": "মে থেকে আগস্ট",
+    "nutrition": ["ভিটামিন এ (সমৃদ্ধ)", "ভিটামিন সি", "পটাশিয়াম", "খাদ্য আঁশ"],
+    "benefits": "রোগ প্রতিরোধ ক্ষমতা বাড়ায়, চোখের দৃষ্টিশক্তি উন্নত করে এবং পরিপাক প্রক্রিয়াকে সহজ করে।",
+    "facts": "আমের পাতার সুগন্ধ ও পল্লব প্রাচীন বঙ্গ সংস্কৃতিতে শুভ প্রতীক এবং উৎসবের মঙ্গলঘট সাজাতে ব্যবহৃত হয়।",
+    "nostalgia": "বৈশাখ-জ্যৈষ্ঠের ঝড়ের দিনে মামার বাড়ি আম কুড়ানোর আনন্দ আর কাঁচা আম ফালি করে কাসুন্দি ও মরিচ দিয়ে মাখিয়ে খাওয়ার সেই সোনালী শৈশব স্মৃতির সাথে জড়িয়ে আছে আম।",
+    "image": "assets/images/mango.jpg",
+    "qrAnchor": "#mango"
+  },
+  {
+    "id": "jackfruit",
+    "name": "কাঁঠাল",
+    "englishName": "Jackfruit",
+    "scientificName": "Artocarpus heterophyllus",
+    "localName": "জাতীয় ফল",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits"],
+    "season": "গ্রীষ্মকাল ও বর্ষাকাল (আষাঢ়-শ্রাবণ)",
+    "origin": "গাজীপুর, নরসিংদী, রাঙ্গামাটি",
+    "availability": "জুন থেকে আগস্ট",
+    "nutrition": ["খাদ্য আঁশ (সর্বোচ্চ)", "পটাশিয়াম", "ক্যালসিয়াম", "ভিটামিন বি৬"],
+    "benefits": "হৃদযন্ত্র ভালো রাখতে সাহায্য করে, কোষ্ঠকাঠিন্য দূর করে এবং হাড় মজবুত ও শক্তিশালী করে তোলে।",
+    "facts": "কাঁঠাল গাছ থেকে কষালো আঠা তৈরি হয় এবং এর বীজ তরকারি হিসেবে রান্না করে কিংবা পুড়িয়ে খাওয়া অত্যন্ত সুস্বাদু।",
+    "nostalgia": "দাদুবাড়ির উঠোনে রোদে বসে হাতে সরিষার তেল মেখে পাকা কাঁঠালের কোয়া কোষ ছাড়িয়ে খাওয়ার আর সবার সাথে গল্প করার স্মৃতি এখনও অমলিন।",
+    "image": "assets/images/jackfruit.jpg",
+    "qrAnchor": "#jackfruit"
+  },
+  {
+    "id": "kamranga",
+    "name": "কামরাঙ্গা",
+    "englishName": "Star Fruit",
+    "scientificName": "Averrhoa carambola",
+    "localName": "তারকা ফল",
+    "category": ["Native Fruits", "Sour Fruits", "Medicinal Fruits"],
+    "season": "শরৎকাল ও হেমন্তকাল (ভাদ্র-কার্তিক)",
+    "origin": "সিলেট, চট্টগ্রাম, ঢাকা",
+    "availability": "সেপ্টেম্বর থেকে জানুয়ারি",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)", "কম ক্যালোরি"],
+    "benefits": "শরীরের রোগ প্রতিরোধ ক্ষমতা বৃদ্ধি করে, ত্বক ও চুল ভালো রাখে এবং হজম প্রক্রিয়া উন্নত করে। (সতর্কতা: কিডনি রোগীদের জন্য এটি পরিহার করা শ্রেয়)",
+    "facts": "কামরাঙ্গা আড়াআড়িভাবে কাটলে নিখুঁত একটি নক্ষত্র বা তারকার আকার ধারণ করে, তাই একে বিশ্বজুড়ে স্টার ফ্রুট বলা হয়।",
+    "nostalgia": "দুপুরের অলস সময়ে স্কুলের গেটে লবন-مরিচ মাখানো স্লাইস করা টক-মিষ্টি কামরাঙ্গার ঝাল স্বাদ জিভে জল এনে দিত।",
+    "image": "assets/images/kamranga.jpg",
+    "qrAnchor": "#kamranga"
+  },
+  {
+    "id": "amra",
+    "name": "আমড়া",
+    "englishName": "Hog Plum",
+    "scientificName": "Spondias dulcis",
+    "localName": "দেশী আমড়া",
+    "category": ["Native Fruits", "Sour Fruits", "Medicinal Fruits"],
+    "season": "বর্ষাকাল ও শরৎকাল (ভাদ্র-আশ্বিন)",
+    "origin": "বরিশাল, ঝালকাঠি, পিরোজপুর",
+    "availability": "আগস্ট থেকে নভেম্বর",
+    "nutrition": ["ভিটামিন সি (সর্বোচ্চ)", "ক্যালসিয়াম", "আয়ারন"],
+    "benefits": "রক্তাল্পতা দূর করতে সাহায্য করে, দাঁত ও মাড়ি শক্ত করে এবং সর্দি-কাশি থেকে রক্ষা করে।",
+    "facts": "আমড়ার পুষ্টিগুণ আপেলের চেয়েও কয়েকগুণ বেশি এবং বরিশালের আমড়া দেশজুড়ে এর বিশালাকার ও সুস্বাদু স্বাদের জন্য বিখ্যাত।",
+    "nostalgia": "নানিবাড়ির বারান্দায় বসে আমড়ার খোসা ছাড়িয়ে লবণ-মরিচ দিয়ে মেখে কামড় বসানোর সেই অনুভূতি পরম তৃপ্তিদায়ক।",
+    "image": "assets/images/amra.jpg",
+    "qrAnchor": "#amra"
+  },
+  {
+    "id": "jam",
+    "name": "জাম",
+    "englishName": "Black Plum / Java Plum",
+    "scientificName": "Syzygium cumini",
+    "localName": "কালোজাম",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "গ্রীষ্মকাল (জ্যৈষ্ঠ-আষাঢ়)",
+    "origin": "ফریدপুর, যশোর, ময়মনসিংহ",
+    "availability": "জুন থেকে জুলাই",
+    "nutrition": ["ক্যালসিয়াম", "ভিটামিন সি", "পটাশিয়াম", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)"],
+    "benefits": "রক্তে শর্করার মাত্রা নিয়ন্ত্রণ করে ডায়াবেটিস রোগীদের জন্য উপকারী এবং রক্ত পরিষ্কার করে।",
+    "facts": "জাম খাওয়ার পর জিহ্বায় যে বেগুনি রঙ তৈরি হয়, তা প্রাকৃতিক অ্যান্থোসায়ানিন রঞ্জকের কারণে ঘটে থাকে।",
+    "nostalgia": "বন্ধুদের সাথে দুপুরে জাম পেড়ে তা বোতলে ভরে লবণ ও মরিচ গুঁড়ো দিয়ে ঝাকিয়ে 'জাম মাখানো' খাওয়ার কথা কখনো ভোলার নয়।",
+    "image": "assets/images/jam.jpg",
+    "qrAnchor": "#jam"
+  },
+  {
+    "id": "banana",
+    "name": "কলা",
+    "englishName": "Banana",
+    "scientificName": "Musa acuminata",
+    "localName": "সবরি/সাগর কলা",
+    "category": ["Native Fruits", "Sweet Fruits", "Seasonal Fruits"],
+    "season": "বারোমাসি (সব ঋতু)",
+    "origin": "নরসিংদী, বগুড়া, টাঙ্গাইল",
+    "availability": "সারা বছর",
+    "nutrition": ["পটাশিয়াম (সর্বোচ্চ)", "ভিটামিন বি৬", "খাদ্য শক্তি", "খাদ্য আঁশ"],
+    "benefits": "তাত্ক্ষণিক শক্তি জোগায়, হৃদযন্ত্র ভালো রাখে এবং উচ্চ রক্তচাপ নিয়ন্ত্রণে সাহায্য করে।",
+    "facts": "কলা গাছ কোনো কাঠযুক্ত উদ্ভিদ নয়, এটি আসলে বিশ্বের বৃহত্তম ভেষজ বা তৃণজাতীয় উদ্ভিদ।",
+    "nostalgia": "সকালে গরম ভাতের সাথে দুধ-কলা মেখে খাওয়ার তৃপ্তি আর টিফিনে মায়ের দেওয়া কলা ও রুটির স্মৃতি সবার শৈশবেই কম-বেশি জড়িয়ে থাকে।",
+    "image": "assets/images/banana.jpg",
+    "qrAnchor": "#banana"
+  },
+  {
+    "id": "papaya",
+    "name": "পেঁপে",
+    "englishName": "Papaya",
+    "scientificName": "Carica papaya",
+    "localName": "পাকা পেঁপে",
+    "category": ["Native Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি (সব ঋতু)",
+    "origin": "যশোর, রাজশাহী, পাবনা",
+    "availability": "সারা বছর",
+    "nutrition": ["ভিটামিন এ (সমৃদ্ধ)", "ভিটামিন সি", "প্যাপেইন এনজাইম"],
+    "benefits": "হজম প্রক্রিয়াকে ত্বরান্বিত করে, কোষ্ঠকাঠিন্য দূর করে এবং চোখের ও ত্বকের উজ্জ্বলতা বৃদ্ধি করে।",
+    "facts": "কাঁচা পেঁপে চমৎকার সবজি হিসেবে এবং মাংস নরম করার জন্য প্রাকৃতিক টেন্ডারাইজার হিসেবে ব্যবহৃত হয়।",
+    "nostalgia": "গাছ থেকে পাকা পেঁপে পেড়ে কেটে ঠান্ডা করে খাওয়ার দারুণ পারিবারিক স্মৃতি এবং কাঁচা পেঁপে দিয়ে তৈরি ডাল রান্নার স্বাদ এখনও মনে পড়ে।",
+    "image": "assets/images/papaya.webp",
+    "qrAnchor": "#papaya"
+  },
+  {
+    "id": "karamcha",
+    "name": "করমচা",
+    "englishName": "Bengal Currant / Karonda",
+    "scientificName": "Carissa carandas",
+    "localName": "করমচা ফল",
+    "category": ["Native Fruits", "Sour Fruits", "Rare Fruits"],
+    "season": "বর্ষাকাল (আষাঢ়-শ্রাবণ)",
+    "origin": "ঢাকা, গাজীপুর, কুষ্টিয়া",
+    "availability": "জুন থেকে সেপ্টেম্বর",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "ক্যালসিয়াম", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)"],
+    "benefits": "রক্তস্বল্পতা দূর করে, রোগ প্রতিরোধ ক্ষমতা বাড়ায় এবং শরীরের অভ্যন্তরীণ প্রদাহ দূর করে।",
+    "facts": "করমচা ফল দেখতে ছোট চেরি ফালের মতো উজ্জ্বল লাল রঙের হয় এবং এটি অত্যন্ত টক স্বাদের হয়।",
+    "nostalgia": "কাঁটাযুক্ত করমচা গাছ থেকে সাবধানে ফল পেড়ে নুন দিয়ে কামড় বসানোর টক স্বাদ জিভে জল এনে দিত।",
+    "image": "assets/images/karamcha.jpg",
+    "qrAnchor": "#karamcha"
+  },
+  {
+    "id": "dehua",
+    "name": "ডেউয়া",
+    "englishName": "Monkey Jack / Dehua",
+    "scientificName": "Artocarpus lacucha",
+    "localName": "ডেউফল",
+    "category": ["Native Fruits", "Sour Fruits", "Rare Fruits", "Medicinal Fruits"],
+    "season": "গ্রীষ্মকাল ও বর্ষাকাল (আষাঢ়-ভাদ্র)",
+    "origin": "সিলেট, পার্বত্য চট্টগ্রাম, ময়মনসিংহ",
+    "availability": "জুন থেকে আগস্ট",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "ক্যালসিয়াম", "খাদ্য আঁশ"],
+    "benefits": "লিভারের কার্যকারিতা ভালো রাখে, মুখের রুচি ফিরিয়ে আনে এবং কোষ্ঠকাঠিন্য প্রতিরোধ করে।",
+    "facts": "ডেউয়া ফলের আকৃতি অত্যন্ত অসমান এবং পাকলে এটি চমৎকার হলদে-লাল রঙের অম্ল-মিষ্টি স্বাদের হয়।",
+    "nostalgia": "বৃষ্টির দিনে গাছ থেকে পাকা নরম ডেউয়া পেড়ে তার অম্ল-মিষ্টি ভেতরের অংশ চুষে খাওয়ার গ্রামীণ স্মৃতি অতি মধুর।",
+    "image": "assets/images/dehua.jpg",
+    "qrAnchor": "#dehua"
+  },
+  {
+    "id": "lotkon",
+    "name": "লটকন",
+    "englishName": "Burmese Grape",
+    "scientificName": "Baccaurea ramiflora",
+    "localName": "ডুবি / বুবি",
+    "category": ["Native Fruits", "Sour Fruits", "Seasonal Fruits"],
+    "season": "বর্ষাকাল (আষাঢ়-শ্রাবণ)",
+    "origin": "নরসিংদী, নেত্রকোনা, গাজীপুর",
+    "availability": "জুন থেকে আগস্ট",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "পটাশিয়াম", "ক্যালসিয়াম"],
+    "benefits": "ত্বকের শুষ্কতা দূর করে সতেজতা বজায় রাখে এবং শরীরের ক্লান্তি ও অবসাদ দূর করে।",
+    "facts": "লটকন ফল গাছের ডালে নয়, সরাসরি গাছের প্রধান কাণ্ডে থোকায় থোকায় ঝুলে থাকে। নরসিংদীর লটকন সবচেয়ে বিখ্যাত।",
+    "nostalgia": "ছোটবেলায় কাণ্ড থেকে থোকা থোকা সোনালী লটকন পেড়ে খোসা ছাড়িয়ে ভেতরের রসালো টক-মিষ্টি অংশ খাওয়ার আনন্দ অনন্য।",
+    "image": "assets/images/lotkon.jpg",
+    "qrAnchor": "#lotkon"
+  },
+  {
+    "id": "lemon",
+    "name": "লেবু",
+    "englishName": "Lemon / Lime",
+    "scientificName": "Citrus limon",
+    "localName": "পাতিলেবু / কাগজিলেবু",
+    "category": ["Native Fruits", "Sour Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি (সব ঋতু)",
+    "origin": "সিলেট (শ্রীমঙ্গল), টাঙ্গাইল, চট্টগ্রাম",
+    "availability": "সারা বছর",
+    "nutrition": ["ভিটামিন সি (সর্বোচ্চ)", "ক্যালসিয়াম", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)"],
+    "benefits": "ওজন নিয়ন্ত্রণে সাহায্য করে, হজমশক্তি বাড়ায় এবং শরীর থেকে বিষাক্ত পদার্থ (টক্সিন) বের করে দেয়।",
+    "facts": "শ্রীমঙ্গলের সুগন্ধি জারা লেবু এবং এলাচি লেবুর সুবাস বিশ্বজুড়ে বাঙালিদের কাছে সমাদৃত।",
+    "nostalgia": "তীব্র গরমে স্কুল থেকে ফিরে মায়ের হাতের এক গ্লাস ঠান্ডা লেবুর শরবতের স্বাদ অমৃতের মতো অনুভূতি এনে দিত।",
+    "image": "assets/images/lemon.webp",
+    "qrAnchor": "#lemon"
+  },
+  {
+    "id": "pineapple",
+    "name": "আনারস",
+    "englishName": "Pineapple",
+    "scientificName": "Ananas comosus",
+    "localName": "আনারস",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "গ্রীষ্মকাল ও বর্ষাকাল (আষাঢ়-ভাদ্র)",
+    "origin": "টাঙ্গাইল (মধুপুর), রাঙ্গামাটি, সিলেট",
+    "availability": "মে থেকে সেপ্টেম্বর",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "ক্যালসিয়াম", "খাদ্য আঁশ"],
+    "benefits": "হজম ও পরিপাক শক্তি বাড়ায়, বাত ও জয়েন্টের ব্যথা দূর করে এবং রোগ প্রতিরোধ ক্ষমতা সবল করে।",
+    "facts": "একটি আনারস আসলে একটি একক ফল নয়, এটি অনেকগুলো ছোট ছোট ফালের মিলিত পুঞ্জীভূত রূপ।",
+    "nostalgia": "মধুপুরের আনারসের ক্ষেত দেখতে যাওয়ার রোমাঞ্চ এবং বাড়িতে এনে লবন-মরিচ গুঁড়ো মাখিয়ে খাওয়ার সোনালী স্মৃতি।",
+    "image": "assets/images/pineapple.jpg",
+    "qrAnchor": "#pineapple"
+  },
+  {
+    "id": "coconut",
+    "name": "নারিকেল / ডাব",
+    "englishName": "Coconut / Water Coconut",
+    "scientificName": "Cocos nucifera",
+    "localName": "ডাব / নারিকেল",
+    "category": ["Native Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি (সব ঋতু)",
+    "origin": "বরিশাল, খুলনা, নোয়াখালী",
+    "availability": "সারা বছর",
+    "nutrition": ["পটাশিয়াম", "ক্যালসিয়াম", "অ্যান্টিঅক্সিডেন্ট", "হাই ওয়াটার কনটেন্ট (সর্বোচ্চ)"],
+    "benefits": "শরীরের পানিশূন্যতা দ্রুত পূরণ করে, মেটাবলিজম বাড়ায় এবং ক্লান্তি দূর করে তাৎক্ষণিক সতেজতা দেয়।",
+    "facts": "ডাবের পানি প্রাকৃতিক স্যালাইনের বিকল্প হিসেবে কাজ করে এবং এটি পুরোপুরি জীবাণুমুক্ত বা স্টেরাইল পানি।",
+    "nostalgia": "গ্রীষ্মের খরতাপে কচি ডাবের মিষ্টি ঠান্ডা পানি পান করে প্রাণ জুড়ানোর আর নারিকেলের কচি শাঁস চামচ দিয়ে তুলে খাওয়ার আনন্দ।",
+    "image": "assets/images/coconut.jpg",
+    "qrAnchor": "#coconut"
+  },
+  {
+    "id": "jamrul",
+    "name": "জামরুল",
+    "englishName": "Water Apple / Wax Apple",
+    "scientificName": "Syzygium samarangense",
+    "localName": "জামরুল",
+    "category": ["Native Fruits", "Sweet Fruits", "Seasonal Fruits"],
+    "season": "গ্রীষ্মকাল (চৈত্র-জ্যৈষ্ঠ)",
+    "origin": "ঢাকা, বরিশাল, রাজশাহী",
+    "availability": "মার্চ থেকে জুন",
+    "nutrition": ["হাই ওয়াটার কনটেন্ট (সর্বোচ্চ)", "ভিটামিন সি", "খাদ্য আঁশ"],
+    "benefits": "শরীরে পানির ভারসাম্য বজায় রাখে, ডায়াবেটিস নিয়ন্ত্রণে সাহায্য করে এবং ত্বক হাইড্রেটেড রাখে।",
+    "facts": "জামরুল দেখতে ছোট ঘণ্টার মতো এবং লাল, সাদা ও হালকা সবুজ রঙের হয়ে থাকে। এতে প্রচুর পানি থাকে।",
+    "nostalgia": "দুপুরের রোদে গাছতলায় পড়ে থাকা সাদা টসটসে মিষ্টি জামরুল কুড়িয়ে জামার হাতায় মুছে কামড় দেওয়ার সেই সারল্যমাখা দিনগুলো।",
+    "image": "assets/images/jamrul.jpg",
+    "qrAnchor": "#jamrul"
+  },
+  {
+    "id": "woodapple",
+    "name": "বেল",
+    "englishName": "Wood Apple / Bael",
+    "scientificName": "Aegle marmelos",
+    "localName": "বেল ফল",
+    "category": ["Native Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "গ্রীষ্মকাল (ফাল্গুন-জ্যৈষ্ঠ)",
+    "origin": "রাজশাহী, পাবনা, কুষ্টিয়া",
+    "availability": "ফেব্রুয়ারি থেকে মে",
+    "nutrition": ["খাদ্য আঁশ (সমৃদ্ধ)", "ভিটামিন সি", "ক্যালসিয়াম"],
+    "benefits": "পেটের নানা পীড়া দূর করতে অব্যর্থ, কোষ্ঠকাঠিন্য ভালো করে এবং রক্ত পরিষ্কার করে।",
+    "facts": "বেল গাছের পাতা হিন্দু ধর্মে শিবের পূজায় পবিত্র মনে করা হয় এবং এর শক্ত খোসা অত্যন্ত মজবুত।",
+    "nostalgia": "গ্রীষ্মের দুপুরে স্কুল থেকে ফিরলে মা বেলের শক্ত খোসা ফাটিয়ে ঘন সুস্বাদু বেলের শরবত বানিয়ে দিত, যা প্রান জুড়াত।",
+    "image": "assets/images/woodapple.webp",
+    "qrAnchor": "#woodapple"
+  },
+  {
+    "id": "pomegranate",
+    "name": "আনার / ডালিম / আনারকলি",
+    "englishName": "Pomegranate",
+    "scientificName": "Punica granatum",
+    "localName": "বেদানা / ডালিম",
+    "category": ["Sweet Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি (সব ঋতু)",
+    "origin": "ঢাকা, রাজশাহী, পাবনা",
+    "availability": "সারা বছর",
+    "nutrition": ["অ্যান্টিঅক্সিডেন্ট (সর্বোচ্চ)", "ক্যালসিয়াম", "ভিটামিন সি"],
+    "benefits": "রক্তশূন্যতা দূর করে, রক্ত সঞ্চালন সচল রাখে এবং হৃদরোগের ঝুঁকি কমায়।",
+    "facts": "ডালিমের প্রতিটি দানার ভেতরে চমৎকার লাল রসালো অংশ থাকে। এক একটি ফলে শত শত দানা থাকে যা মুক্তোর দানার মতো উজ্জ্বল।",
+    "nostalgia": "শৈশবে ছড়ায় ছড়ায় পড়া 'হাট্টিমাটিম টিম... ডালিম গাছে প্রভূ'র সেই কল্পনার ডালিম বাগান আর লাল দানাগুলো বাটিতে নিয়ে মেখে খাওয়ার আনন্দ।",
+    "image": "assets/images/pomegranate.webp",
+    "qrAnchor": "#pomegranate"
+  },
+  {
+    "id": "iceapple",
+    "name": "তালের আশারি",
+    "englishName": "Ice Apple / Palmyra Fruit",
+    "scientificName": "Borassus flabellifer",
+    "localName": "তালের শাঁস / আশারি",
+    "category": ["Native Fruits", "Sweet Fruits", "Seasonal Fruits", "Rare Fruits"],
+    "season": "গ্রীষ্মকাল (বৈশাখ-জ্যৈষ্ঠ)",
+    "origin": "ফরিদপুর, নোয়াখালী, কুষ্টিয়া",
+    "availability": "মে থেকে জুন",
+    "nutrition": ["হাই ওয়াটার কনটেন্ট (সর্বোচ্চ)", "পটাশিয়াম", "ক্যালসিয়াম"],
+    "benefits": "তীব্র গরমে শরীর ঠান্ডা রাখে, পানিশূন্যতা দূর করে এবং লিভার সুরক্ষিত রাখে।",
+    "facts": "তাল গাছ থেকে বিখ্যাত তাল রস সংগৃহীত হয় যা দিয়ে সুস্বাদু গুড় ও পিঠা তৈরি করা হয়। তালের কচি কোষই হলো তালের শাঁস।",
+    "nostalgia": "গ্রীষ্মের ভরদুপুরে বাবার সাথে হাট থেকে কচি তাল কিনে এনে বটি দিয়ে কেটে ভেতরের রসালো শাঁস খাওয়ার শীতল অনুভূতি।",
+    "image": "assets/images/iceapple.webp",
+    "qrAnchor": "#iceapple"
+  },
+  {
+    "id": "apple",
+    "name": "আপেল",
+    "englishName": "Apple",
+    "scientificName": "Malus domestica",
+    "localName": "আপেল",
+    "category": ["Sweet Fruits"],
+    "season": "শীতকাল (বারোমাসি আমদানি)",
+    "origin": "হিমাচল (ভারত), কাশ্মির (আমদানিকৃত)",
+    "availability": "সারা বছর",
+    "nutrition": ["খাদ্য আঁশ (সমৃদ্ধ)", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)", "ভিটামিন সি"],
+    "benefits": "কোলেস্টেরল কমায়, ফুসফুস ভালো রাখে এবং মস্তিষ্কের কার্যকারিতা উন্নত করে।",
+    "facts": "কথায় আছে, 'প্রতিদিন একটি আপেল ডাক্তার থেকে দূরে রাখে' (An apple a day keeps the doctor away)।",
+    "nostalgia": "শৈশবে অসুস্থ হলে নানি কিংবা খালা দেখতে আসার সময় রঙিন লাল আপেল নিয়ে আসার স্মৃতি সবার মনেই দাগ কেটে থাকে।",
+    "image": "assets/images/apple.webp",
+    "qrAnchor": "#apple"
+  },
+  {
+    "id": "malta",
+    "name": "মাল্টা",
+    "englishName": "Sweet Orange / Malta",
+    "scientificName": "Citrus sinensis",
+    "localName": "বারি মাল্টা",
+    "category": ["Sweet Fruits", "Medicinal Fruits"],
+    "season": "শরৎ-হেমন্তকাল (বারোমাসি)",
+    "origin": "পিরোজপুর, খাগড়াছড়ি, পঞ্চগড়",
+    "availability": "সেপ্টেম্বর থেকে জানুয়ারি",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "খাদ্য আঁশ", "ক্যালসিয়াম"],
+    "benefits": "ত্বক সতেজ রাখে, সর্দি-কাশি কমায় এবং স্কার্ভি রোগ প্রতিরোধে সাহায্য করে।",
+    "facts": "বাংলাদেশে এখন পাহাড়ি এলাকায় চমৎকার স্বাদের সবুজ ও হলুদ রঙের বারি মাল্টা-১ চাষ হচ্ছে যা অত্যন্ত রসালো।",
+    "nostalgia": "বিকেলের নাস্তার পর পরিবারের সবাই একসাথে গোল হয়ে বসে মাল্টা স্লাইস করে কেটে নুন দিয়ে ভাগ করে খাওয়ার স্মৃতি।",
+    "image": "assets/images/malta.webp",
+    "qrAnchor": "#malta"
+  },
+  {
+    "id": "orange",
+    "name": "কমলা",
+    "englishName": "Mandarin Orange",
+    "scientificName": "Citrus reticulata",
+    "localName": "কমলালেবু",
+    "category": ["Sweet Fruits", "Seasonal Fruits", "Medicinal Fruits"],
+    "season": "শীতকাল (অগ্রহায়ণ-মাঘ)",
+    "origin": "সিলেট, পঞ্চগড়, রাঙ্গামাটি",
+    "availability": "নভেম্বর থেকে ফেব্রুয়ারি",
+    "nutrition": ["ভিটামিন সি (সর্বোচ্চ)", "অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)", "ক্যালসিয়াম"],
+    "benefits": "হিমোগ্লোবিন উৎপাদনে সাহায্য করে, রক্তচাপ নিয়ন্ত্রণ করে এবং চোখের জ্যোতি বজায় রাখে।",
+    "facts": "কমলার খোসাতেও রয়েছে প্রচুর পুষ্টিগুণ এবং এর তেল সুগন্ধি তৈরিতে ব্যাপকভাবে ব্যবহৃত হয়।",
+    "nostalgia": "শীতের মিষ্টি রোদে উঠোনে বসে কমলার কোয়াগুলো একের পর এক ছাড়িয়ে খাওয়ার আর খোসা দিয়ে চোখের সামনে রস ছিটানোর দুষ্টুমি।",
+    "image": "assets/images/orange.jpg",
+    "qrAnchor": "#orange"
+  },
+  {
+    "id": "strawberry",
+    "name": "স্ট্রবেরি",
+    "englishName": "Strawberry",
+    "scientificName": "Fragaria ananassa",
+    "localName": "স্ট্রবেরি",
+    "category": ["Sour Fruits", "Seasonal Fruits", "Rare Fruits"],
+    "season": "শীতকাল (পৌষ-ফাল্গুন)",
+    "origin": "রাজশাহী, নাটোর, ঢাকা",
+    "availability": "জানুয়ারি থেকে মার্চ",
+    "nutrition": ["অ্যান্টিঅক্সিডেন্ট (সর্বোচ্চ)", "ভিটামিন সি", "ক্যালসিয়াম"],
+    "benefits": "ত্বকের বলিরেখা দূর করে বার্ধক্য রোধ করে, ওজোন কমায় এবং ক্যান্সার কোষের বৃদ্ধি ধীর করে।",
+    "facts": "স্ট্রবেরি একমাত্র ফল যার বীজ ফলের ভেতরে নয়, বরং খোসার বাইরের স্তরে ক্ষুদ্র বিন্দুর মতো দৃশ্যমান থাকে।",
+    "nostalgia": "পাহাড়ি অঞ্চলের মেলা থেকে বা সুপারশপ থেকে প্রথম আকর্ষণীয় লাল রঙের স্ট্রবেরি কিনে টক-মিষ্টি স্বাদের স্বাদ নেওয়ার রোমাঞ্চ।",
+    "image": "assets/images/strawberry.webp",
+    "qrAnchor": "#strawberry"
+  },
+  {
+    "id": "guava",
+    "name": "পেয়ারা",
+    "englishName": "Guava",
+    "scientificName": "Psidium guajava",
+    "localName": "গয়া / সফরি আম",
+    "category": ["Native Fruits", "Sweet Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি (বর্ষাকালে সর্বোচ্চ)",
+    "origin": "বরিশাল (স্বরূপকাঠি), পিরোজপুর, চট্টগ্রাম",
+    "availability": "সারা বছর",
+    "nutrition": ["ভিটামিন সি (সর্বোচ্চ)", "খাদ্য আঁশ", "পটাশিয়াম"],
+    "benefits": "রক্তে শর্করার মাত্রা নিয়ন্ত্রণ করে ডায়াবেটিস প্রতিরোধ করে এবং রোগ প্রতিরোধ শক্তি কয়েকগুণ বাড়ায়।",
+    "facts": "পেয়ারার ভিটামিন সি কমলার চেয়ে প্রায় ৪ গুণ বেশি। স্বরূপকাঠির ভাসমান পেয়ারার হাট একটি ঐতিহাসিক ঐতিহ্যবাহী পর্যটন স্পট।",
+    "nostalgia": "দুপুরে বন্ধুদের সাথে লুকিয়ে পেয়ারা গাছ থেকে ঢিল মেরে ডাসা পেয়ারা পেড়ে ছিঁড়ে লবণ আর মরিচ দিয়ে কামড়ানোর সেই দূরন্ত শৈশব।",
+    "image": "assets/images/guava.jpg",
+    "qrAnchor": "#guava"
+  },
+  {
+    "id": "grape",
+    "name": "আঙ্গুর",
+    "englishName": "Grape",
+    "scientificName": "Vitis vinifera",
+    "localName": "আঙ্গুর ফল",
+    "category": ["Sweet Fruits", "Medicinal Fruits"],
+    "season": "শীতকাল (বারোমাসি আমদানি)",
+    "origin": "আমদানিকৃত (বারোমাসি প্রাপ্যতা)",
+    "availability": "সারা বছর",
+    "nutrition": ["অ্যান্টিঅক্সিডেন্ট (সমৃদ্ধ)", "ভিটামিন সি", "পটাশিয়াম"],
+    "benefits": "হৃদপিণ্ডের রক্তনালী ভালো রাখে, ব্রেইন ও মেমোরি পাওয়ার বাড়ায় এবং কিডনি ভালো রাখে।",
+    "facts": "একটি আঙ্গুর লতা বা ভাইন ১০০ বছরেরও বেশি সময় ধরে ফল দিতে সক্ষম হতে পারে।",
+    "nostalgia": "নতুন জামা কেনার খুশিতে বাড়ি ফেরার সময় বাবার হাত ধরে রঙিন আঙ্গুরের থোকা কিনে এনে বাটিতে ধুয়ে এক একটি করে মুখে পুরে দেওয়ার স্মৃতি।",
+    "image": "assets/images/grape.jpg",
+    "qrAnchor": "#grape"
+  },
+  {
+    "id": "lichi",
+    "name": "লিচু",
+    "englishName": "Lychee / Litchi",
+    "scientificName": "Litchi chinensis",
+    "localName": "বোম্বাই / চায়না ৩ লিচু",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits"],
+    "season": "গ্রীষ্মকাল (জ্যৈষ্ঠ)",
+    "origin": "দিনাজপুর, পাবনা (ঈশ্বরদী)",
+    "availability": "মে থেকে জুন",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "পটাশিয়াম", "অ্যান্টিঅক্সিডেন্ট"],
+    "benefits": "ত্বকের সতেজতা বজায় রাখে, হৃদযন্ত্র ভালো রাখে এবং শরীরের রোগ প্রতিরোধ ক্ষমতা শক্তিশালী করে।",
+    "facts": "দিনাজপুরের লিচু এর চমৎকার সুমিষ্ট স্বাদ ও লাল টকটকে আবরণের জন্য বিখ্যাত এবং এটি বছরে মাত্র ১ মাসের জন্য দেখা মেলে।",
+    "nostalgia": "গাছের ডালে ঝুলন্ত লাল টুকটুকে লিচু পেড়ে নখ দিয়ে খোসা ছাড়িয়ে ভেতরের সাদা রসালো অংশে কামড় দেওয়ার সেই চোখ বুজে আসা তৃপ্তি সবার শৈশবকেই ছুঁয়ে যায়।",
+    "image": "assets/images/lichi.jpg",
+    "qrAnchor": "#lichi"
+  },
+  {
+    "id": "watermelon",
+    "name": "তরমুজ",
+    "englishName": "Watermelon",
+    "scientificName": "Citrullus lanatus",
+    "localName": "পতেঙ্গা / কালো তরমুজ",
+    "category": ["Seasonal Fruits", "Summer Fruits", "Sweet Fruits"],
+    "season": "গ্রীষ্মকাল (চৈত্র-জ্যৈষ্ঠ)",
+    "origin": "বরিশাল, পটুয়াখালী, চট্টগ্রাম",
+    "availability": "মার্চ থেকে জুন",
+    "nutrition": ["হাই ওয়াটার কনটেন্ট (সর্বোচ্চ)", "লাইকোপেন (সমৃদ্ধ)", "ভিটামিন সি"],
+    "benefits": "গ্রীষ্মের খরতাপে পানিশূন্যতা দূর করে দ্রুত হাইড্রেট করে এবং শরীরে রক্তচাপ নিয়ন্ত্রণে সাহায্য করে।",
+    "facts": "একটি রসালো তরমুজের প্রায় ৯২ ভাগ অংশই হলো খাঁটি পুষ্টিকর পানি, যা প্রাকৃতিকভাবে রক্ত বিশুদ্ধ রাখতে ভূমিকা রাখে।",
+    "nostalgia": "স্কুল শেষে রোদে পুড়ে ক্লান্ত হয়ে বাড়ি ফিরে ফ্রিজ থেকে বের করা ঠান্ডা তরমুজ গোল গোল স্লাইস করে কেটে বড় কামড় বসানোর সেই শীতল পরম সুখ।",
+    "image": "assets/images/watermelon.jpg",
+    "qrAnchor": "#watermelon"
+  },
+  {
+    "id": "boroi",
+    "name": "কুল/বরই",
+    "englishName": "Jujube / Plum",
+    "scientificName": "Ziziphus mauritiana",
+    "localName": "টক-মিষ্টি বরই / আপেল কুল",
+    "category": ["Native Fruits", "Sour Fruits", "Seasonal Fruits"],
+    "season": "শীতকাল (পৌষ-ফাল্গুন)",
+    "origin": "রাজশাহী, কুমিল্লা, যশোর",
+    "availability": "জানুয়ারি থেকে মার্চ",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "ক্যালসিয়াম", "অ্যান্টিঅক্সিডেন্ট"],
+    "benefits": "হজমশক্তি বৃদ্ধি করে, ত্বক সতেজ রাখে এবং শরীরের ইমিউনিটি বাড়াতে সাহায্য করে।",
+    "facts": "বরইয়ের উচ্চ মাত্রার পুষ্টিগুণ স্ট্রেস ও অনিদ্রা দূর করতে অত্যন্ত কার্যকরী এবং এটি অত্যন্ত ঐতিহ্যবাহী ফল।",
+    "nostalgia": "শীতের মিষ্টি রোদে উঠোনে বসে কাঁচা কুল বা বরই লবন ও লাল মরিচ গুঁড়ো দিয়ে মেখে বন্ধুদের সাথে ভাগ করে খাওয়ার সেই অমৃত শৈশব স্মৃতি।",
+    "image": "assets/images/boroi.jpg",
+    "qrAnchor": "#boroi"
+  },
+  {
+    "id": "kodbel",
+    "name": "কদবেল",
+    "englishName": "Elephant Apple / Wood Apple",
+    "scientificName": "Limonia acidissima",
+    "localName": "কইত বেল",
+    "category": ["Native Fruits", "Sour Fruits", "Seasonal Fruits"],
+    "season": "শীতকাল (কার্তিক-পৌষ)",
+    "origin": "ঢাকা, রাজশাহী, খুলনা",
+    "availability": "অক্টোবর থেকে জানুয়ারি",
+    "nutrition": ["ভিটামিন সি", "ক্যালসিয়াম", "খাদ্য আঁশ (সমৃদ্ধ)"],
+    "benefits": "হৃদরোগ প্রতিরোধ করে, কিডনি ভালো রাখে এবং যকৃতের কার্যক্ষমতা উন্নত করে।",
+    "facts": "কদবেলের ভেতরের আঠালো খয়েরি অংশ অত্যন্ত টক-মিষ্টি স্বাদের হয় এবং এর খোসা পাথরের মতোই শক্ত।",
+    "nostalgia": "দুপুরে স্কুলের সামনে কদবেল ফাটিয়ে মরিচ-লবণ আর কাসুন্দি মেখে বেলের খোসার চামচ দিয়ে তুলে খাওয়ার সেই লোভনীয় স্মৃতি।",
+    "image": "assets/images/kodbel.jpg",
+    "qrAnchor": "#kodbel"
+  },
+  {
+    "id": "ata",
+    "name": "আতা",
+    "englishName": "Custard Apple / Sugar Apple",
+    "scientificName": "Annona squamosa",
+    "localName": "শরিফা / নোয়া",
+    "category": ["Native Fruits", "Sweet Fruits", "Seasonal Fruits"],
+    "season": "শীতকাল (ভাদ্র-পৌষ)",
+    "origin": "সিলেট, চট্টগ্রাম, যশোর",
+    "availability": "আগস্ট থেকে ডিসেম্বর",
+    "nutrition": ["ভিটামিন এ (সমৃদ্ধ)", "ভিটামিন সি", "পটাশিয়াম"],
+    "benefits": "হজমশক্তি উন্নত করে, পেশী ক্লান্তি দূর করে এবং ত্বকের বার্ধক্য রোধ করে।",
+    "facts": "আতা ফলের ভেতরের নরম ক্রিম রঙের কোষগুলো অত্যন্ত মিষ্টি এবং এর বৈজ্ঞানিক গোত্রটি সুগন্ধি ফলের জন্য পরিচিত।",
+    "nostalgia": "নানিবাড়ির উঠোনে পাকা আতা গাছ থেকে নরম আতা পেড়ে হাত দিয়ে ফাটিয়ে ভেতরের মিষ্টি দানাগুলো মুখে পুরে দেওয়ার তৃপ্তি।",
+    "image": "assets/images/ata.jpg",
+    "qrAnchor": "#ata"
+  },
+  {
+    "id": "chalta",
+    "name": "চালতা",
+    "englishName": "Elephant Apple",
+    "scientificName": "Dillenia indica",
+    "localName": "চালতা ফল",
+    "category": ["Native Fruits", "Sour Fruits", "Medicinal Fruits"],
+    "season": "শরৎকাল ও হেমন্তকাল (আশ্বিন-পৌষ)",
+    "origin": "সিলেট, সুন্দরবন উপকূল, পার্বত্য এলাকা",
+    "availability": "সেপ্টেম্বর থেকে ডিসেম্বর",
+    "nutrition": ["ভিটামিন সি (সমৃদ্ধ)", "ক্যালসিয়াম", "অ্যান্টিঅক্সিডেন্ট"],
+    "benefits": "সর্দি-কাশি প্রতিরোধে অত্যন্ত কার্যকর, বাত ব্যথায় উপকারী এবং হজমশক্তি বৃদ্ধি করে।",
+    "facts": "চালতা ফুল আকারে বেশ বড় ও সাদা রঙের হয় এবং হাতিরা এই ফল খেতে ভালোবাসে বলে একে ইংরেজিতে Elephant Apple বলা হয়।",
+    "nostalgia": "চালতা থেঁতলে মরিচ-লবণ দিয়ে মাখা খাওয়া আর রোদে শুকানো চালতার টক-মিষ্টি আচারের কথা মনে পড়লে আজও জিভে জল চলে আসে।",
+    "image": "assets/images/chalta.jpg",
+    "qrAnchor": "#chalta"
+  },
+  {
+    "id": "jolpai",
+    "name": "জলপাই",
+    "englishName": "Olive",
+    "scientificName": "Elaeocarpus serratus",
+    "localName": "দেশী জলপাই",
+    "category": ["Native Fruits", "Sour Fruits", "Medicinal Fruits"],
+    "season": "শরৎকাল ও হেমন্তকাল (আশ্বিন-পৌষ)",
+    "origin": "ঢাকা, ময়মনসিংহ, সিলেট",
+    "availability": "সেপ্টেম্বর থেকে জানুয়ারি",
+    "nutrition": ["ভিটামিন ই (সমৃদ্ধ)", "ভিটামিন সি", "খাদ্য আঁশ"],
+    "benefits": "কোলেস্টেরল কমায়, হৃদপিণ্ড ভালো রাখে এবং রক্তের শর্করা নিয়ন্ত্রণে সাহায্য করে।",
+    "facts": "জলপাইয়ের তেল বা অলিভ অয়েল বিশ্বজুড়ে স্বাস্থ্যের জন্য অত্যন্ত উপকারী চর্বি হিসেবে অত্যন্ত জনপ্রিয়।",
+    "nostalgia": "শীতের শুরুতে জলপাই সেদ্ধ করে লবন-মরিচ দিয়ে মেখে খাওয়া এবং রোদে শুকানো জলপাইয়ের ঝাল-মিষ্টি আচারের বৈয়ামের স্মৃতি।",
+    "image": "assets/images/jolpai.jpg",
+    "qrAnchor": "#jolpai"
+  },
+  {
+    "id": "khejur",
+    "name": "খেজুর",
+    "englishName": "Dates",
+    "scientificName": "Phoenix dactylifera",
+    "localName": "খেজুর / খুরমা",
+    "category": ["Sweet Fruits", "Native Fruits", "Medicinal Fruits"],
+    "season": "বারোমাসি / শীতকাল (রস)",
+    "origin": "যশোর, ফরিদপুর, রাজশাহী",
+    "availability": "সারা বছর (শুকনো), শীতকাল (কাঁচা ও রস)",
+    "nutrition": ["আয়রন (সমৃদ্ধ)", "পটাশিয়াম", "খাদ্য আঁশ (সমৃদ্ধ)", "ক্যালসিয়াম"],
+    "benefits": "তাৎক্ষণিক শক্তি যোগায়, রক্তাল্পতা দূর করে, হজম প্রক্রিয়া উন্নত করে এবং হৃদযন্ত্র সবল রাখে।",
+    "facts": "বাংলার খেজুর গাছ থেকে সংগৃহীত রস দিয়ে তৈরি হয় বিখ্যাত পাটালি গুড় এবং খেজুর রস জ্বাল দিয়ে তৈরি পিঠা অত্যন্ত জনপ্রিয়।",
+    "nostalgia": "শীতের হিমেল সকালে মাটির হাঁড়িতে খেজুরের টাটকা মিষ্টি রস পান করা এবং কুয়াশা ঘেরা ভোরে রস নামানো দেখার সেই আনন্দময় শৈশব স্মৃতি।",
+    "image": "assets/images/khejur.png",
+    "qrAnchor": "#khejur"
+  }
+];
+        let quizData = [
+  {
+    "id": 1,
+    "question": "কোন ফলকে বাংলাদেশের 'জাতীয় ফল' হিসেবে ঘোষণা করা হয়েছে?",
+    "options": ["আম", "কাঁঠাল", "জাম", "নারকেল"],
+    "answer": 1,
+    "explanation": "কাঁঠাল বাংলাদেশের জাতীয় ফল। এটি পুষ্টিগুণে ভরপুর এবং এর কাঠও অত্যন্ত মূল্যবান।"
+  },
+  {
+    "id": 2,
+    "question": "সবুজ ও কাঁচা অবস্থায় অত্যন্ত টক কিন্তু পাকলে মিষ্টি ও সুস্বাদু হয় কোন ফলটি?",
+    "options": ["কামরাঙ্গা", "আম", "তেঁতুল", "সবগুলোই"],
+    "answer": 3,
+    "explanation": "আম, কামরাঙ্গা ও তেঁতুলের মতো অনেক ফলই কাঁচা অবস্থায় টক থাকে এবং পাকলে চমৎকার মিষ্টি হয়।"
+  },
+  {
+    "id": 3,
+    "question": "আড়াআড়ি বা স্লাইস করে কাটলে কোন ফলের আকৃতি একটি নিখুঁত তারকার (Star) মতো দেখায়?",
+    "options": ["আমড়া", "কামরাঙ্গা", "জামরুল", "লটকন"],
+    "answer": 1,
+    "explanation": "কামরাঙ্গা আড়াআড়ি কাটলে দেখতে তারার মতো দেখায়। এ কারণেই এর ইংরেজি নাম 'Star Fruit'।"
+  },
+  {
+    "id": 4,
+    "question": "কোন ফলের পুষ্টিগুণ আপেলের চেয়েও প্রায় কয়েকগুণ বেশি এবং বরিশালে খুব ভালো জন্মায়?",
+    "options": ["আমড়া", "পেয়ারা", "লিচু", "কামরাঙ্গা"],
+    "answer": 0,
+    "explanation": "আমড়াতে আপেলের চেয়েও বেশি ক্যালসিয়াম ও ভিটামিন সি থাকে। বরিশালের আমড়া এর সুস্বাদু স্বাদের জন্য বিখ্যাত।"
+  },
+  {
+    "id": 5,
+    "question": "নিচের কোনটি প্রধানত বর্ষাকালে পাওয়া যায় এবং টক-মিষ্টি স্বাদের ভেষজ ফল?",
+    "options": ["আমড়া", "কাঁঠাল", "লিচু", "জাম"],
+    "answer": 0,
+    "explanation": "আমড়া প্রধানত বর্ষা ও শরৎকালে পাওয়া যায় এবং এটি ভিটামিন সি সমৃদ্ধ একটি ভেষজ ফল।"
+  },
+  {
+    "id": 6,
+    "question": "কোন ফলকে 'ফলের রাজা' বলা হয় এবং এটি প্রধানত গ্রীষ্মকালে পাওয়া যায়?",
+    "options": ["লিচু", "আম", "কাঁঠাল", "পেয়ারা"],
+    "answer": 1,
+    "explanation": "আমকে ফলের রাজা বলা হয়। এটি অত্যন্ত সুস্বাদু এবং গ্রীষ্মকালের অন্যতম জনপ্রিয় ফল।"
+  },
+  {
+    "id": 7,
+    "question": "কোন ফলে প্রচুর পরিমাণে ভিটামিন সি থাকে যা শরীরের রোগ প্রতিরোধ ক্ষমতা বাড়ায়?",
+    "options": ["আমড়া", "কামরাঙ্গা", "পেয়ারা", "সবগুলোই"],
+    "answer": 3,
+    "explanation": "আমড়া, কামরাঙ্গা এবং পেয়ারা—সবগুলো ফলেই উচ্চ মাত্রায় ভিটামিন সি থাকে যা রোগ প্রতিরোধ ক্ষমতা বাড়ায়।"
+  },
+  {
+    "id": 8,
+    "question": "কোন ফলের শতকরা ৯২ ভাগই জলীয় অংশ, যা তীব্র গরমে শরীর হাইড্রেট রাখতে সাহায্য করে?",
+    "options": ["আনারস", "তরমুজ", "ডাব", "লিচু"],
+    "answer": 1,
+    "explanation": "তরমুজের প্রায় ৯২% পানি, যা গ্রীষ্মকালে প্রাকৃতিকভাবে শরীরকে সতেজ রাখতে অতুলনীয়।"
+  },
+  {
+    "id": 9,
+    "question": "কোন ফলটি সেদ্ধ করে লবন-মরিচ দিয়ে মেখে খাওয়া এবং এর ঝাল-মিষ্টি আচার তৈরি করা হয়?",
+    "options": ["জলপাই", "বেল", "কালোজাম", "কাঁঠাল"],
+    "answer": 0,
+    "explanation": "জলপাই দিয়ে অত্যন্ত সুস্বাদু ঝাল-মিষ্টি আচার তৈরি করা হয় যা বাঙালির অত্যন্ত প্রিয়।"
+  },
+  {
+    "id": 10,
+    "question": "কোন ফলের বীজ তরকারি হিসেবে রান্না করে কিংবা আগুনে পুড়িয়ে খাওয়া যায়?",
+    "options": ["আম", "কাঁঠাল", "পেয়ারা", "বরই"],
+    "answer": 1,
+    "explanation": "কাঁঠালের বীজ প্রোটিন সমৃদ্ধ এবং এটি তরকারি হিসেবে রান্না করে বা পুড়িয়ে খাওয়া অত্যন্ত সুস্বাদু।"
+  }
+];
+        let teamData = {
+  "project": "ফল বাগান (বিদ্যালয় ফল প্রদর্শনী ডিজিটাল অভিজ্ঞতা)",
+  "session": "২০২৫-২০২৬",
+  "advisors": [
+    {
+      "name": "নূর মোহাম্মদ সাগর",
+      "designation": "প্রধান শিক্ষক",
+      "role": "সাহেরা নায়েব ল্যাবরেটরি হাই স্কুল। শিক্ষার্থীদের প্রকল্প তত্ত্বাবধান, সামগ্রিক সমন্বয় এবং সঠিক দিকনির্দেশনা প্রদান।"
+    },
+    {
+      "name": "ফুরকান আহমেদ",
+      "designation": "সহকারী শিক্ষক ও শ্রেণি শিক্ষক (৭ম বালিকা)",
+      "role": "সাহেরা নায়েব ল্যাবরেটরি হাই স্কুল। প্রজেক্ট ডিজাইন, শিক্ষার্থীদের প্রত্যক্ষ দিকনির্দেশনা এবং বাস্তবায়ন সমন্বয়।"
+    }
+  ],
+  "students": [
+    {
+      "name": "সপ্তম শ্রেণির (বালিকা) শাখার সকল শিক্ষার্থী",
+      "class": "সহযোগিতায় ও উন্নয়ন দল",
+      "role": "সাহেরা নায়েব ল্যাবরেটরি হাই স্কুল। বিদ্যালয়ের এই ফল প্রদর্শনী সফল করতে ফলের নমুনা সংগ্রহ, পুষ্টি ও বৈজ্ঞানিক তথ্য বিন্যাস, ডিজিটাল কিউআর কোড স্থাপন এবং কুইজ বাস্তবায়নে সম্মিলিতভাবে অংশগ্রহণ ও পরিশ্রম।"
+    }
+  ],
+  "partner": {
+    "name": "Dremoy IT",
+    "designation": "CEO Furkan Ahmed",
+    "role": "শিক্ষার্থীদের ফল চেনার আনন্দ আর শেখার অভিজ্ঞতাকে সম্পূর্ণ নতুন মাত্রা দিতে কাজ করেছে ড্রিময় আইটি। খুদে গবেষকদের চমৎকার এই উদ্যোগকে ডিজিটাল দুনিয়ায় সবার কাছে সহজে পৌঁছে দিতে আমরা কিউআর কোড সিস্টেম, ওয়েবসাইট উন্নয়ন এবং সামগ্রিক কারিগরি সহযোগী হিসেবে যুক্ত থাকতে পেরে অত্যন্ত আনন্দিত।"
+  }
+};
+
+        let activeCategory = 'All';
+        let currentQuizIndex = 0;
+        let score = 0;
+        let activeQuizQuestions = [];
+
+        // Slideshow images & stats configuration for About section
+        const aboutSlides = [
+            {
+                name: 'ফল প্রদর্শনী',
+                image: 'assets/images/hero_banner.png',
+                stats: [
+                    { value: '২৯+', label: 'বিশ্লেষিত ফল' },
+                    { value: '১০০%', label: 'শিক্ষামূলক ও স্মৃতিময়' },
+                    { value: '১০+', label: 'মজার কুইজ প্রশ্ন' }
+                ]
+            },
+            {
+                name: 'আম',
+                image: 'assets/images/mango.jpg',
+                stats: [
+                    { value: 'ফলের রাজা', label: 'আমের উপাধি' },
+                    { value: 'রাজশাহী', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'ভিটামিন এ', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'কাঁঠাল',
+                image: 'assets/images/jackfruit.jpg',
+                stats: [
+                    { value: 'জাতীয় ফল', label: 'কাঁঠালের মর্যাদা' },
+                    { value: 'গাজীপুর', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'খাদ্য আঁশ', label: 'সর্বোচ্চ উপাদান' }
+                ]
+            },
+            {
+                name: 'লিচু',
+                image: 'assets/images/lichi.jpg',
+                stats: [
+                    { value: 'দিনাজপুর', label: 'সেরা লিচু' },
+                    { value: 'জ্যৈষ্ঠ', label: 'পাকার মাস' },
+                    { value: 'ভিটামিন সি', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'তরমুজ',
+                image: 'assets/images/watermelon.jpg',
+                stats: [
+                    { value: '৯২%', label: 'জলীয় অংশ' },
+                    { value: 'চৈত্র-জ্যৈষ্ঠ', label: 'পাওয়ার ঋতু' },
+                    { value: 'লাইকোপেন', label: 'উপকারী উপাদান' }
+                ]
+            },
+            {
+                name: 'জাম',
+                image: 'assets/images/jam.jpg',
+                stats: [
+                    { value: 'বেগুনি', label: 'জিহ্বার রঙ' },
+                    { value: 'যশোর', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'আয়রন', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'কলা',
+                image: 'assets/images/banana.jpg',
+                stats: [
+                    { value: 'বারোমাসি', label: 'প্রাপ্যতা' },
+                    { value: 'নরসিংদী', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'পটাশিয়াম', label: 'সর্বোচ্চ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'পেঁপে',
+                image: 'assets/images/papaya.webp',
+                stats: [
+                    { value: 'প্যাপেইন', label: 'হজমকারী এনজাইম' },
+                    { value: 'যশোর', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'ভিটামিন এ', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'আনারস',
+                image: 'assets/images/pineapple.jpg',
+                stats: [
+                    { value: 'মধুপুর', label: 'সেরা আনারস' },
+                    { value: 'ব্রোমেলেন', label: 'হজমকারী এনজাইম' },
+                    { value: 'ভিটামিন সি', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'লেবু',
+                image: 'assets/images/lemon.webp',
+                stats: [
+                    { value: 'শ্রীমঙ্গল', label: 'বিখ্যাত লেবু' },
+                    { value: 'ভিটামিন সি', label: 'সর্বোচ্চ উপাদান' },
+                    { value: 'সাইট্রিক', label: 'উপকারী এসিড' }
+                ]
+            },
+            {
+                name: 'নারিকেল / ডাব',
+                image: 'assets/images/coconut.jpg',
+                stats: [
+                    { value: 'ডাব', label: 'স্যালাইনের বিকল্প' },
+                    { value: 'বরিশাল', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'পটাশিয়াম', label: 'প্রচুর পরিমাণে' }
+                ]
+            },
+            {
+                name: 'পেয়ারা',
+                image: 'assets/images/guava.jpg',
+                stats: [
+                    { value: '৪ গুণ', label: 'বেশি ভিটামিন সি' },
+                    { value: 'স্বরূপকাঠি', label: 'ভাসমান হাট' },
+                    { value: 'খাদ্য আঁশ', label: 'প্রচুর উপাদান' }
+                ]
+            },
+            {
+                name: 'কমলা',
+                image: 'assets/images/orange.jpg',
+                stats: [
+                    { value: 'শীতকাল', label: 'পাওয়ার সময়' },
+                    { value: 'সিলেট', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'ভিটামিন সি', label: 'সর্বোচ্চ উপাদান' }
+                ]
+            },
+            {
+                name: 'কামরাঙ্গা',
+                image: 'assets/images/kamranga.jpg',
+                stats: [
+                    { value: 'তারকা', label: 'ফলের আকৃতি' },
+                    { value: 'সিলেট', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'অ্যান্টিঅক্সিডেন্ট', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'ডালিম',
+                image: 'assets/images/pomegranate.webp',
+                stats: [
+                    { value: 'বেদানা', label: 'স্থানীয় নাম' },
+                    { value: 'আয়রন', label: 'রক্তশূন্যতা দূর' },
+                    { value: 'অ্যান্টিঅক্সিডেন্ট', label: 'সর্বোচ্চ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'স্ট্রবেরি',
+                image: 'assets/images/strawberry.webp',
+                stats: [
+                    { value: 'বাহিরের', label: 'বীজের অবস্থান' },
+                    { value: 'রাজশাহী', label: 'চাষের অঞ্চল' },
+                    { value: 'ফলিক এসিড', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            },
+            {
+                name: 'কুল/বরই',
+                image: 'assets/images/boroi.jpg',
+                stats: [
+                    { value: 'আপেল কুল', label: 'উন্নত জাত' },
+                    { value: 'রাজশাহী', label: 'বিখ্যাত অঞ্চল' },
+                    { value: 'ভিটামিন সি', label: 'সমৃদ্ধ পুষ্টি' }
+                ]
+            }
+        ];
+        let currentAboutImageIdx = 0;
+
+        function rotateAboutImages() {
+            const imgEl = document.querySelector('#about img');
+            const statsContainer = document.getElementById('about-stats-container');
+            const badgeEl = document.getElementById('about-fruit-name-badge');
+            if (!imgEl || !statsContainer) return;
+            
+            setInterval(() => {
+                currentAboutImageIdx = (currentAboutImageIdx + 1) % aboutSlides.length;
+                const slide = aboutSlides[currentAboutImageIdx];
+                
+                if (typeof gsap !== 'undefined') {
+                    gsap.timeline()
+                        .to([imgEl, statsContainer, badgeEl].filter(el => el !== null), { opacity: 0, duration: 0.4 })
+                        .call(() => {
+                            imgEl.src = slide.image;
+                            if (badgeEl) badgeEl.innerText = slide.name;
+                            document.getElementById('about-stat-val-1').innerText = slide.stats[0].value;
+                            document.getElementById('about-stat-lbl-1').innerText = slide.stats[0].label;
+                            document.getElementById('about-stat-val-2').innerText = slide.stats[1].value;
+                            document.getElementById('about-stat-lbl-2').innerText = slide.stats[1].label;
+                            document.getElementById('about-stat-val-3').innerText = slide.stats[2].value;
+                            document.getElementById('about-stat-lbl-3').innerText = slide.stats[2].label;
+                        })
+                        .to([imgEl, statsContainer, badgeEl].filter(el => el !== null), { opacity: 1, duration: 0.5 });
+                } else {
+                    imgEl.src = slide.image;
+                    if (badgeEl) badgeEl.innerText = slide.name;
+                    document.getElementById('about-stat-val-1').innerText = slide.stats[0].value;
+                    document.getElementById('about-stat-lbl-1').innerText = slide.stats[0].label;
+                    document.getElementById('about-stat-val-2').innerText = slide.stats[1].value;
+                    document.getElementById('about-stat-lbl-2').innerText = slide.stats[1].label;
+                    document.getElementById('about-stat-val-3').innerText = slide.stats[2].value;
+                    document.getElementById('about-stat-lbl-3').innerText = slide.stats[2].label;
+                }
+            }, 5000);
+        }
+
+        function selectRandomQuestions() {
+            // Pick 5 random questions from the quizData pool
+            const shuffled = [...quizData].sort(() => 0.5 - Math.random());
+            activeQuizQuestions = shuffled.slice(0, 5);
+        }
+
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+
+        function toggleMobileMenu() {
+            mobileMenu.classList.add('hidden');
+        }
+
+        function handleImageError(img, name) {
+            img.onerror = null;
+            const parent = img.parentElement;
+            parent.innerHTML = `
+                <div class="w-full h-full flex flex-col items-center justify-center text-center p-4">
+                    <svg class="w-12 h-12 text-brandLeaf/30 mb-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                    <span class="text-xs font-semibold text-brandLeaf/70">${name}</span>
+                </div>
+            `;
+        }
+
+        function downloadQR(url, name) {
+            fetch(url)
+                .then(res => res.blob())
+                .then(blob => {
+                    const a = document.createElement('a');
+                    a.href = URL.createObjectURL(blob);
+                    a.download = `${name}-QR.png`;
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                })
+                .catch(() => {
+                    window.open(url, '_blank');
+                });
+        }
+
+        // Global scroll progress & dynamic header effects
+        window.addEventListener('scroll', () => {
+            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (winScroll / height) * 100;
+            const progressBar = document.getElementById('progress-bar');
+            if (progressBar) progressBar.style.width = scrolled + '%';
+            
+            const header = document.getElementById('main-header');
+            if (header) {
+                if (winScroll > 40) {
+                    header.classList.remove('bg-transparent', 'border-transparent');
+                    header.classList.add('bg-brandBg/90', 'backdrop-blur-md', 'border-brandCream/80', 'shadow-sm');
+                } else {
+                    header.classList.add('bg-transparent', 'border-transparent');
+                    header.classList.remove('bg-brandBg/90', 'backdrop-blur-md', 'border-brandCream/80', 'shadow-sm');
+                }
+            }
+            
+            // Dynamic Active Menu Indicator
+            const sections = ['about', 'calendar', 'nutrition', 'explore', 'quiz', 'team'];
+            let currentActive = "";
+            sections.forEach(secId => {
+                const sec = document.getElementById(secId);
+                if (sec) {
+                    const rect = sec.getBoundingClientRect();
+                    if (rect.top <= 120 && rect.bottom >= 120) {
+                        currentActive = secId;
+                    }
+                }
+            });
+            
+            document.querySelectorAll('nav a').forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === `#${currentActive}`) {
+                    link.classList.add('text-brandLeaf');
+                    link.classList.remove('text-brandForest/90');
+                } else {
+                    link.classList.remove('text-brandLeaf');
+                    link.classList.add('text-brandForest/90');
+                }
+            });
+        });
+
+        // Initialize App
+        window.addEventListener('DOMContentLoaded', () => {
+            // Init renders directly from embedded arrays (Offline/Local file support)
+            renderGallery();
+            filterNutrition('vitamin-c');
+            filterCalendar('Summer');
+            selectRandomQuestions();
+            renderQuiz();
+            renderTeam(teamData);
+            rotateAboutImages();
+
+            // Setup Lucide icons replacement
+            lucide.createIcons();
+
+            // Trigger GSAP entrance animations
+            setupAnimations();
+
+            // Check Hash navigation on load
+            handleHashNavigation();
+        });
+
+        // Setup window hash change listener
+        window.addEventListener('hashchange', handleHashNavigation);
+
+        // Handle QR scanning and direct anchor navigation
+        function handleHashNavigation() {
+            const hash = window.location.hash;
+            if (hash && hash.startsWith('#') && hash.length > 1) {
+                const targetId = hash.substring(1);
+                const matchingFruit = fruitsData.find(f => f.id === targetId);
+                if (matchingFruit) {
+                    // Update active fruit presentation
+                    renderActiveFruit(matchingFruit);
+                    
+                    // Show floating "View All Fruits"
+                    document.getElementById('floating-qr-control').classList.remove('hidden');
+                    document.getElementById('floating-qr-control').classList.add('flex');
+
+                    // Highlight and glow target element
+                    setTimeout(() => {
+                        const targetElem = document.getElementById('active-fruit-card-target');
+                        if (targetElem) {
+                            targetElem.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                            targetElem.classList.add('highlight-glow');
+                            setTimeout(() => {
+                                targetElem.classList.remove('highlight-glow');
+                            }, 4000);
+                        }
+                    }, 300);
+                } else {
+                    // If it's a section anchor (like #quiz)
+                    const targetElem = document.getElementById(targetId);
+                    if (targetElem) {
+                        setTimeout(() => {
+                            targetElem.scrollIntoView({ behavior: 'smooth' });
+                        }, 200);
+                    }
+                }
+            } else {
+                document.getElementById('floating-qr-control').classList.add('hidden');
+                document.getElementById('floating-qr-control').classList.remove('flex');
+            }
+        }
+
+        // Search inputs listener
+        document.getElementById('global-search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.getElementById('gallery-search').value = query;
+            filterGalleryBySearch(query);
+        });
+
+        document.getElementById('gallery-search').addEventListener('input', (e) => {
+            const query = e.target.value.toLowerCase();
+            document.getElementById('global-search').value = query;
+            filterGalleryBySearch(query);
+        });
+
+        function filterGalleryBySearch(query) {
+            const filtered = fruitsData.filter(fruit => 
+                fruit.name.includes(query) || 
+                fruit.englishName.toLowerCase().includes(query) ||
+                fruit.scientificName.toLowerCase().includes(query)
+            );
+            renderGallery(filtered);
+        }
+
+        // Render gallery grid
+        function renderGallery(data = fruitsData) {
+            const container = document.getElementById('fruits-gallery');
+            container.innerHTML = '';
+            
+            // Apply category filter if active
+            let displayData = data;
+            if (activeCategory !== 'All') {
+                displayData = data.filter(f => f.category.includes(activeCategory));
+            }
+
+            if (displayData.length === 0) {
+                container.innerHTML = `
+                    <div class="col-span-full text-center py-8 text-brandForest/60">
+                        <i data-lucide="search" class="w-10 h-10 mx-auto mb-2 text-brandLeaf/40"></i>
+                        <p class="font-semibold text-xs">কোনো মিল পাওয়া যায়নি। অন্য নামে সার্চ করুন।</p>
+                    </div>
+                `;
+                lucide.createIcons();
+                return;
+            }
+
+            displayData.forEach(fruit => {
+                const card = document.createElement('a');
+                card.href = `#${fruit.id}`;
+                card.className = "bg-white p-5 rounded-2xl premium-shadow-sm hover:premium-shadow-lg hover:-translate-y-1 transition-all flex flex-col justify-between group cursor-pointer";
+                card.innerHTML = `
+                    <div>
+                        <div class="w-full aspect-[4/3] rounded-xl overflow-hidden bg-brandCream mb-4 flex items-center justify-center">
+                            <img src="${fruit.image}" alt="${fruit.name}" loading="lazy" onerror="handleImageError(this, '${fruit.name}')" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300">
+                        </div>
+                        <h3 class="text-lg font-bold text-brandForest group-hover:text-brandLeaf transition-colors mb-1">${fruit.name}</h3>
+                        <p class="text-xs text-brandForest/50 italic mb-2">${fruit.scientificName}</p>
+                        <div class="flex flex-wrap gap-1">
+                            ${fruit.category.map(cat => `<span class="bg-brandCream text-xs font-semibold text-brandLeaf px-2.5 py-0.5 rounded-full">${cat === 'Seasonal Fruits' ? 'ঋতুভিত্তিক' : cat === 'Summer Fruits' ? 'গ্রীষ্মকালীন' : cat === 'Sweet Fruits' ? 'মিষ্টি' : cat === 'Sour Fruits' ? 'টক' : cat === 'Medicinal Fruits' ? 'ভেষজ' : cat === 'Native Fruits' ? 'দেশী' : cat}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="mt-4 flex items-center gap-1 text-xs text-brandLeaf font-bold group-hover:gap-2 transition-all">
+                        <span>বিস্তারিত দেখুন</span>
+                        <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+            lucide.createIcons();
+        }
+
+        // Render Active Fruit Details Template
+        function renderActiveFruit(fruit) {
+            const container = document.getElementById('active-fruit-card-target');
+            
+            // Find indices for prev and next navigation
+            const currentIndex = fruitsData.findIndex(f => f.id === fruit.id);
+            const prevFruit = fruitsData[currentIndex - 1] || fruitsData[fruitsData.length - 1];
+            const nextFruit = fruitsData[currentIndex + 1] || fruitsData[0];
+
+            container.innerHTML = `
+                <div class="bg-white p-6 sm:p-10 rounded-3xl premium-shadow-lg relative overflow-hidden">
+                    <!-- Navigation Top bar -->
+                    <div class="flex items-center justify-between border-b border-brandCream pb-4 mb-6 text-xs sm:text-sm font-bold text-brandLeaf">
+                        <a href="#${prevFruit.id}" class="flex items-center gap-1 hover:text-brandForest transition-colors">
+                            <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                            <span>আগের ফল: ${prevFruit.name}</span>
+                        </a>
+                        <a href="#${nextFruit.id}" class="flex items-center gap-1 hover:text-brandForest transition-colors">
+                            <span>পরের ফল: ${nextFruit.name}</span>
+                            <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                        </a>
+                    </div>
+                    
+                    <!-- Content Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                        <!-- Image & QR Meta -->
+                        <div class="flex flex-col items-center">
+                            <div class="w-full aspect-[4/3] rounded-2xl overflow-hidden border border-brandLeaf/10 mb-4 bg-brandCream flex items-center justify-center">
+                                <img src="${fruit.image}" alt="${fruit.name}" loading="lazy" onerror="handleImageError(this, '${fruit.name}')" class="w-full h-full object-cover">
+                            </div>
+                            <div class="bg-brandCream/50 border border-brandLeaf/10 rounded-2xl p-4 w-full text-center mb-4">
+                                <span class="text-xs text-brandForest/60 font-semibold block mb-1">স্থানীয় নাম</span>
+                                <span class="text-sm font-bold text-brandForest block">${fruit.localName}</span>
+                            </div>
+                            <div class="bg-white border border-brandLeaf/20 rounded-2xl p-4 w-full flex flex-col items-center shadow-sm">
+                                <span class="text-xs text-brandLeaf font-bold block mb-2">স্টল কিউআর কোড (প্রিন্ট লেবেল)</span>
+                                <img id="qr-image-${fruit.id}" src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://fruit.dremoy.com/%23${fruit.id}" alt="${fruit.name} QR Code" loading="lazy" class="w-24 h-24 mb-2">
+                                <span class="text-xs text-brandForest/50 font-bold block mb-3">fruit.dremoy.com/#${fruit.id}</span>
+                                <button onclick="downloadQR('https://api.qrserver.com/v1/create-qr-code/?size=300x300&data=https://fruit.dremoy.com/%23${fruit.id}', '${fruit.name}')" class="text-xs bg-brandLeaf hover:bg-brandLeaf/90 text-white font-bold px-3 py-1.5 rounded-xl flex items-center gap-1 shadow-sm transition-all">
+                                    <svg class="w-3.5 h-3.5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 0 0 5.25 21h13.5A2.25 2.25 0 0 0 21 18.75V16.5M7.5 12 12 16.5m0 0 4.5-4.5M12 16.5V3"/></svg>
+                                    <span>কোড ডাউনলোড</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Data Fields -->
+                        <div>
+                            <div class="mb-4">
+                                <h3 class="text-3xl font-bold text-brandForest">${fruit.name}</h3>
+                                <p class="text-sm text-brandLeaf font-semibold italic">${fruit.englishName} | ${fruit.scientificName}</p>
+                            </div>
+                            
+                            <div class="space-y-4 text-sm">
+                                <div class="grid grid-cols-2 gap-2">
+                                    <div class="bg-brandBg/60 p-2.5 rounded-xl border border-brandCream">
+                                        <span class="text-xs text-brandForest/50 font-bold block uppercase">ঋতু</span>
+                                        <span class="font-semibold text-brandForest text-xs">${fruit.season}</span>
+                                    </div>
+                                    <div class="bg-brandBg/60 p-2.5 rounded-xl border border-brandCream">
+                                        <span class="text-xs text-brandForest/50 font-bold block uppercase">উৎপত্তি</span>
+                                        <span class="font-semibold text-brandForest text-xs">${fruit.origin}</span>
+                                    </div>
+                                </div>
+                                <div class="bg-brandBg/60 p-2.5 rounded-xl border border-brandCream">
+                                    <span class="text-xs text-brandForest/50 font-bold block uppercase">প্রাপ্যতা</span>
+                                    <span class="font-semibold text-brandForest text-xs">${fruit.availability}</span>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-brandForest/50 font-bold block uppercase mb-1">প্রধান পুষ্টিগুণ</span>
+                                    <div class="flex flex-wrap gap-1">
+                                        ${fruit.nutrition.map(n => `<span class="bg-brandLeaf/10 text-brandLeaf px-3 py-1 rounded-full text-xs font-bold">${n}</span>`).join('')}
+                                    </div>
+                                </div>
+                                <div>
+                                    <span class="text-xs text-brandForest/50 font-bold block uppercase mb-1">শারীরিক উপকারিতা</span>
+                                    <p class="text-brandForest/90 text-xs sm:text-sm leading-relaxed font-medium">${fruit.benefits}</p>
+                                </div>
+                                <div class="border-t border-brandCream pt-4">
+                                    <span class="text-xs text-brandGold font-bold block uppercase mb-1 flex items-center gap-1">
+                                        <i data-lucide="lightbulb" class="w-3.5 h-3.5"></i>
+                                        <span>অজানা মজার তথ্য</span>
+                                    </span>
+                                    <p class="text-brandForest/80 text-xs sm:text-sm leading-relaxed">${fruit.facts}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Childhood Nostalgia box -->
+                    <div class="mt-8 bg-brandCream/65 border border-brandLeaf/10 rounded-2xl p-6 sm:p-8 relative">
+                        <i data-lucide="quote" class="w-10 h-10 text-brandLeaf/15 absolute right-4 top-4"></i>
+                        <h4 class="text-sm font-bold text-brandLeaf flex items-center gap-1.5 mb-2">
+                            <i data-lucide="hourglass" class="w-4 h-4"></i>
+                            <span>শৈশবের সোনালী স্মৃতি</span>
+                        </h4>
+                        <p class="text-brandForest/95 text-xs sm:text-sm leading-relaxed italic font-medium">${fruit.nostalgia}</p>
+                    </div>
+                </div>
+            `;
+            lucide.createIcons();
+        }
+
+        // Category filter trigger
+        function filterCategory(cat, btnElement) {
+            activeCategory = cat;
+            document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+                btn.classList.remove('bg-brandLeaf', 'text-white');
+                btn.classList.add('bg-brandBg', 'border', 'border-brandLeaf/15', 'text-brandForest');
+            });
+            const targetBtn = btnElement || (window.event && window.event.target && window.event.target.classList ? window.event.target : null) || document.querySelector('.cat-filter-btn');
+            if (targetBtn && targetBtn.classList) {
+                targetBtn.classList.add('bg-brandLeaf', 'text-white');
+                targetBtn.classList.remove('bg-brandBg', 'border', 'border-brandLeaf/15', 'text-brandForest');
+            }
+            renderGallery();
+        }
+
+        // Seasonal Calendar click filter
+        const calendarData = {
+            Summer: {
+                title: "গ্রীষ্মকাল (জ্যৈষ্ঠ-আষাঢ়)",
+                desc: "মধু মাস নামে পরিচিত এই ঋতুতে রসালো ও সুমিষ্ট ফলের মেলা বসে। তীব্র গরমে দেহ সতেজ রাখতে আম-কাঁঠাল দারুণ কার্যকরী।",
+                fruits: ["আম", "কাঁঠাল", "লিচু", "জাম", "আনারস", "তরমুজ"]
+            },
+            Rainy: {
+                title: "বর্ষাকাল (আষাঢ়-শ্রাবণ)",
+                desc: "আষাঢ়ের অবিরাম বৃষ্টির দিনে কদম ফুল ফোটার সাথে সাথে বিভিন্ন রসালো ও টক ফলের দেখা মেলে।",
+                fruits: ["কাঁঠাল", "পেয়ারা", "লটকন", "জামরুল", "আমড়া"]
+            },
+            Autumn: {
+                title: "শরৎ ও হেমন্তকাল (ভাদ্র-কার্তিক)",
+                desc: "নীল আকাশ ও কাশফুলের শরৎ পেরিয়ে হেমন্তের সোনালী ধান ওঠার এই সময়ে টক-মিষ্টি ফলের আগমন ঘটে।",
+                fruits: ["কামরাঙ্গা", "আমড়া", "চালতা", "বাতাবি লেবু", "জলপাই"]
+            },
+            Winter: {
+                title: "শীত ও বসন্তকাল (অগ্রহায়ণ-চৈত্র)",
+                desc: "কুয়াশা ঘেরা শীতের সকাল এবং ঋতুরাজ বসন্তের আমেজকে প্রাণবন্ত করে তুলতে নানা পুষ্টিসমৃদ্ধ সাইট্রাস ও কড়কড়ে ফলের প্রাচুর্য থাকে।",
+                fruits: ["কুল/বরই", "কমলা", "বেল", "কদবেল", "আতা"]
+            }
+        };
+
+        function filterCalendar(season, btnElement) {
+            document.querySelectorAll('.calendar-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brandLeaf', 'text-white');
+                btn.classList.add('bg-white', 'border', 'border-brandLeaf/20', 'text-brandForest');
+            });
+            if (btnElement) {
+                btnElement.classList.add('bg-brandLeaf', 'text-white');
+                btnElement.classList.remove('bg-white', 'border', 'border-brandLeaf/20', 'text-brandForest');
+            } else {
+                const firstBtn = document.querySelector('.calendar-tab-btn');
+                if (firstBtn) {
+                    firstBtn.classList.add('bg-brandLeaf', 'text-white');
+                    firstBtn.classList.remove('bg-white', 'border', 'border-brandLeaf/20', 'text-brandForest');
+                }
+            }
+
+            const data = calendarData[season];
+            document.getElementById('cal-season-title').innerText = data.title;
+            document.getElementById('cal-season-desc').innerText = data.desc;
+            
+            const fruitsContainer = document.getElementById('cal-fruits');
+            fruitsContainer.innerHTML = data.fruits.map(fruitName => {
+                const match = fruitsData.find(f => f.name === fruitName) || fruitsData.find(f => f.name.includes(fruitName) || fruitName.includes(f.name));
+                if (match) {
+                    return `
+                        <a href="#${match.id}" class="bg-brandCream hover:bg-brandLeaf/10 border border-brandLeaf/10 hover:border-brandLeaf/30 px-5 py-3 rounded-2xl text-sm sm:text-base font-bold text-brandForest flex items-center gap-3 transition-all transform hover:-translate-y-0.5 shadow-sm group">
+                            <div class="w-10 h-10 rounded-xl bg-white p-1 flex items-center justify-center border border-brandLeaf/5">
+                                <img src="${match.image}" alt="${fruitName}" onerror="handleImageError(this, '${fruitName}')" class="object-contain max-h-full max-w-full group-hover:scale-105 transition-transform duration-300">
+                            </div>
+                            <span>${fruitName}</span>
+                        </a>
+                    `;
+                } else {
+                    return `
+                        <span class="bg-brandCream border border-brandLeaf/5 px-5 py-3 rounded-2xl text-sm sm:text-base font-bold text-brandForest/60 flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-white/50 p-1 flex items-center justify-center">
+                                <svg class="w-6 h-6 text-brandLeaf/40" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                            </div>
+                            <span>${fruitName}</span>
+                        </span>
+                    `;
+                }
+            }).join('');
+        }
+
+        // Nutrition comparison render
+        function filterNutrition(nutritionType, btnElement) {
+            document.querySelectorAll('.nut-tab-btn').forEach(btn => {
+                btn.classList.remove('bg-brandLeaf', 'text-white');
+                btn.classList.add('bg-white', 'border', 'border-brandLeaf/20', 'text-brandForest');
+            });
+            const targetBtn = btnElement || (window.event && window.event.target && window.event.target.classList ? window.event.target : null) || document.querySelector('.nut-tab-btn');
+            if (targetBtn && targetBtn.classList) {
+                targetBtn.classList.add('bg-brandLeaf', 'text-white');
+                targetBtn.classList.remove('bg-white', 'border', 'border-brandLeaf/20', 'text-brandForest');
+            }
+
+            const container = document.getElementById('nutrition-results');
+            container.innerHTML = '';
+
+            let filteredFruits = [];
+            if (nutritionType === 'vitamin-c') {
+                filteredFruits = fruitsData.filter(f => f.nutrition.some(n => n.includes("ভিটামিন সি")));
+            } else if (nutritionType === 'fiber') {
+                filteredFruits = fruitsData.filter(f => f.nutrition.some(n => n.includes("আঁশ")));
+            } else if (nutritionType === 'vitamin-a') {
+                filteredFruits = fruitsData.filter(f => f.nutrition.some(n => n.includes("ভিটামিন এ")));
+            } else if (nutritionType === 'antioxidant') {
+                filteredFruits = fruitsData.filter(f => f.nutrition.some(n => n.includes("অ্যান্টিঅক্সিডেন্ট")));
+            }
+
+            filteredFruits.forEach(fruit => {
+                const card = document.createElement('a');
+                card.href = `#${fruit.id}`;
+                card.className = "bg-white p-5 rounded-2xl premium-shadow-sm hover:premium-shadow-md hover:-translate-y-0.5 transition-all flex items-center gap-4 cursor-pointer";
+                card.innerHTML = `
+                    <img src="${fruit.image}" alt="${fruit.name}" class="w-12 h-12 object-contain bg-brandCream rounded-lg p-1">
+                    <div>
+                        <h4 class="text-sm font-bold text-brandForest">${fruit.name}</h4>
+                        <span class="text-xs bg-brandLeaf/10 text-brandLeaf px-2.5 py-0.5 rounded-full font-bold inline-block mt-1">পুষ্টি তথ্য দেখুন</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Quiz Engine Render
+        function renderQuiz() {
+            const container = document.getElementById('quiz-container');
+            if (currentQuizIndex >= activeQuizQuestions.length) {
+                // Completed State
+                let congratsTitle = "কুইজ সম্পন্ন হয়েছে!";
+                let congratsText = "";
+                const finalScore = score * 2;
+
+                if (finalScore === 10) {
+                    congratsTitle = "অসাধারণ! অভিনন্দন 🎉";
+                    congratsText = "আপনি প্রতিটি প্রশ্নের সঠিক উত্তর দিয়ে শতভাগ মার্কস পেয়েছেন! ফলের রাজত্বে আপনার জ্ঞান অতুলনীয়! 🏆🍎";
+                } else if (finalScore >= 8) {
+                    congratsTitle = "দারুণ খেলেছেন! অভিনন্দন 🌟";
+                    congratsText = "বাংলার ফল এবং তাদের অনন্য বৈশিষ্ট্য সম্পর্কে আপনার চমৎকার ধারণা রয়েছে।";
+                } else {
+                    congratsTitle = "কুইজ সম্পন্ন হয়েছে!";
+                    congratsText = "অংশগ্রহণের জন্য ধন্যবাদ। ফলের পুষ্টিগুণ ও শৈশবস্মৃতি আরও জানতে চাইলে আমাদের প্রদর্শনী গ্যালারিটি আবার ঘুরে দেখতে পারেন। 🍃";
+                }
+
+                let couponHTML = "";
+                if (finalScore >= 8) {
+                    couponHTML = `
+                    <div class="mt-6 p-6 border-2 border-dashed border-brandGold bg-brandCream/80 rounded-2xl max-w-sm mx-auto shadow-sm">
+                        <span class="text-sm font-extrabold text-amber-800 uppercase tracking-widest block mb-2">🎁 বিশেষ উপহার কুপন 🎁</span>
+                        <h4 class="text-base font-bold text-brandForest mb-3">ফ্রি ফলের রস/আইটেম কুপন</h4>
+                        <div class="bg-white px-6 py-2.5 rounded-xl border border-brandGold/40 font-mono text-lg font-black text-brandForest tracking-widest inline-block mb-4 shadow-inner select-all">
+                            FB-FREE-ITEM-80
+                        </div>
+                        <p class="text-sm text-brandForest leading-relaxed font-bold text-center">
+                            অভিনন্দন! আপনি কুইজে ৮০% এর বেশি সঠিক উত্তর দিয়েছেন। স্টলে এই কুপন কোডটি দেখিয়ে আপনার পছন্দের ফলের আইটেমটি ফ্রিতে সংগ্রহ করুন!
+                        </p>
+                    </div>
+                    `;
+                }
+
+                container.innerHTML = `
+                    <div class="text-center py-6 relative">
+                        <i data-lucide="award" class="w-16 h-16 text-brandGold mx-auto mb-4"></i>
+                        <h3 class="text-2xl font-bold text-brandForest mb-2">${congratsTitle}</h3>
+                        <p class="text-sm text-brandForest/80 max-w-md mx-auto mb-4 font-semibold">${congratsText}</p>
+                        <p class="text-sm text-brandForest/60 mb-6">১০ এর মধ্যে আপনার স্কোর: <strong class="text-brandLeaf text-lg">${finalScore}</strong></p>
+                        ${couponHTML}
+                        <div class="flex flex-wrap justify-center gap-3 mt-6">
+                            <button onclick="restartQuiz()" class="bg-brandLeaf hover:bg-brandLeaf/95 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all">
+                                আবার শুরু করুন
+                            </button>
+                            <button onclick="shareOnWhatsApp(${finalScore})" class="bg-[#25D366] hover:bg-[#20BA5A] text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all inline-flex items-center gap-2">
+                                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946C.06 5.348 5.397.01 12.008.01c3.202.001 6.212 1.246 8.477 3.514 2.266 2.268 3.507 5.28 3.505 8.484-.004 6.657-5.34 11.997-11.953 11.997-2.005-.001-3.973-.502-5.73-1.45L0 24zm6.59-4.846c1.6.95 3.188 1.449 4.825 1.451 5.436 0 9.86-4.42 9.864-9.864.002-2.637-1.03-5.115-2.903-6.988-1.873-1.873-4.351-2.903-6.99-2.905-5.447 0-9.873 4.42-9.877 9.864-.001 1.772.461 3.502 1.34 5.033l-.228.834-.694 2.535 2.6.682.763-.232zm13.434-7.464c-.3-.15-1.774-.875-2.049-.976-.275-.1-.475-.15-.675.15-.2.3-.775.976-.95 1.176-.175.2-.35.225-.65.075-.3-.15-1.267-.467-2.413-1.49-1.053-.94-1.763-2.1-1.97-2.45-.208-.35-.022-.538.128-.687.135-.134.3-.35.45-.525.15-.175.2-.3.3-.5s.05-.375-.025-.525C11.53 6.9 10.9 5.35 10.64 4.7c-.255-.632-.515-.544-.7-.552l-.597-.008c-.207 0-.543.078-.827.387-.283.309-1.082 1.058-1.082 2.58 0 1.522 1.107 2.993 1.262 3.2.155.207 2.179 3.327 5.279 4.664.738.318 1.312.508 1.761.65.742.236 1.417.203 1.952.123.595-.089 1.774-.725 2.024-1.425.25-.7.25-1.3 0-1.425-.075-.125-.275-.2-.575-.35z"/></svg>
+                                <span>WhatsApp শেয়ার</span>
+                            </button>
+                        </div>
+                    </div>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                celebrateQuiz();
+                return;
+            }
+
+            const q = activeQuizQuestions[currentQuizIndex];
+            container.innerHTML = `
+                <div>
+                    <span class="text-xs font-bold text-brandLeaf uppercase tracking-wide block mb-2">প্রশ্ন ${currentQuizIndex + 1} / ${activeQuizQuestions.length}</span>
+                    <h3 class="text-lg font-bold text-brandForest mb-6 leading-relaxed">${q.question}</h3>
+                    <div class="space-y-3 mb-6">
+                        ${q.options.map((opt, idx) => `
+                            <button onclick="selectOption(${idx})" class="quiz-opt-btn w-full text-left bg-brandBg hover:bg-brandCream border border-brandLeaf/15 p-4 rounded-xl text-xs sm:text-sm font-semibold transition-all flex items-center justify-between">
+                                <span>${opt}</span>
+                                <div class="w-4 h-4 rounded-full border border-brandLeaf/30 flex items-center justify-center"></div>
+                            </button>
+                        `).join('')}
+                    </div>
+                    <div id="quiz-feedback" class="hidden p-4 rounded-xl border mb-6 text-xs sm:text-sm leading-relaxed"></div>
+                    <div class="flex items-center justify-between">
+                        <div class="w-2/3 bg-brandCream h-2 rounded-full overflow-hidden">
+                            <div class="bg-brandLeaf h-full transition-all duration-300" style="width: ${((currentQuizIndex + 1) / activeQuizQuestions.length) * 100}%"></div>
+                        </div>
+                        <button id="quiz-next-btn" disabled onclick="nextQuestion()" class="bg-brandLeaf/45 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full cursor-not-allowed transition-all">
+                            পরবর্তী প্রশ্ন
+                        </button>
+                    </div>
+                </div>
+            `;
+        }
+
+        let selectedAnsIndex = null;
+        function selectOption(idx) {
+            if (selectedAnsIndex !== null) return; // Answer already submitted for this question
+            selectedAnsIndex = idx;
+
+            const q = activeQuizQuestions[currentQuizIndex];
+            const buttons = document.querySelectorAll('.quiz-opt-btn');
+            const feedback = document.getElementById('quiz-feedback');
+            const nextBtn = document.getElementById('quiz-next-btn');
+
+            buttons.forEach((btn, bIdx) => {
+                btn.classList.add('cursor-not-allowed');
+                const dot = btn.querySelector('div');
+                if (bIdx === q.answer) {
+                    btn.classList.add('bg-green-50', 'border-green-500', 'text-green-800');
+                    dot.innerHTML = `<div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>`;
+                } else if (bIdx === idx) {
+                    btn.classList.add('bg-red-50', 'border-red-500', 'text-red-800');
+                    dot.innerHTML = `<div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>`;
+                }
+            });
+
+            if (idx === q.answer) {
+                score++;
+                feedback.className = "p-4 rounded-xl border border-green-200 bg-green-50/50 text-green-800 mb-6 text-xs sm:text-sm leading-relaxed";
+                feedback.innerHTML = `<strong>সঠিক উত্তর!</strong> ${q.explanation}`;
+            } else {
+                feedback.className = "p-4 rounded-xl border border-red-200 bg-red-50/50 text-red-800 mb-6 text-xs sm:text-sm leading-relaxed";
+                feedback.innerHTML = `<strong>ভুল উত্তর!</strong> সঠিক উত্তরটি হলো: <em>${q.options[q.answer]}</em>। ${q.explanation}`;
+            }
+            feedback.classList.remove('hidden');
+
+            nextBtn.disabled = false;
+            nextBtn.classList.remove('bg-brandLeaf/45', 'cursor-not-allowed');
+            nextBtn.classList.add('bg-brandLeaf', 'hover:bg-brandLeaf/95');
+        }
+
+        function nextQuestion() {
+            currentQuizIndex++;
+            selectedAnsIndex = null;
+            renderQuiz();
+        }
+
+        function restartQuiz() {
+            currentQuizIndex = 0;
+            score = 0;
+            selectedAnsIndex = null;
+            selectRandomQuestions();
+            renderQuiz();
+        }
+
+        // Render Advisors & Students
+        function renderTeam(team) {
+            const container = document.getElementById('team-container');
+            container.innerHTML = `
+                <!-- Advisors Block -->
+                <div>
+                    <h3 class="text-sm uppercase font-bold text-brandLeaf tracking-widest text-center mb-6">প্রকল্প উপদেষ্টা শিক্ষকবৃন্দ</h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        ${team.advisors.map(adv => `
+                            <div class="bg-white p-6 rounded-2xl border border-brandLeaf/10 premium-shadow-sm hover:premium-shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden group hover:-translate-y-0.5">
+                                <!-- Premium green subtle gradient line on top -->
+                                <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brandLeaf via-emerald-500 to-brandLeaf/30"></div>
+                                <div>
+                                    <h4 class="text-lg font-bold text-brandForest mb-2">${adv.name}</h4>
+                                    <span class="text-xs font-bold text-brandLeaf/80 block mb-3">${adv.designation}</span>
+                                    <p class="text-sm text-brandForest/80 leading-relaxed font-semibold text-justify border-t border-brandCream pt-4">${adv.role}</p>
+                                </div>
+                            </div>
+                        `).join('')}
+                    </div>
+                </div>
+
+                <!-- Students & Digital Partner Grid -->
+                <div class="border-t border-brandLeaf/10 pt-10">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+                        <!-- Students Card -->
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brandLeaf/10 premium-shadow-sm hover:premium-shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden group hover:-translate-y-0.5">
+                            <!-- Premium green subtle gradient line on top -->
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brandLeaf via-emerald-500 to-brandLeaf/30"></div>
+                            <div>
+                                <h3 class="text-xs uppercase font-extrabold text-brandLeaf tracking-widest block mb-4">গবেষণা ও উন্নয়ন শিক্ষার্থী দল</h3>
+                                <h4 class="text-lg font-bold text-brandForest mb-2">${team.students[0].name}</h4>
+                                <span class="text-xs bg-brandCream px-3.5 py-1 rounded-full text-brandLeaf font-extrabold inline-block mb-4 shadow-sm">${team.students[0].class}</span>
+                                <p class="text-sm text-brandForest/80 leading-relaxed font-semibold text-justify border-t border-brandCream pt-4">${team.students[0].role}</p>
+                            </div>
+                        </div>
+
+                        <!-- Digital Partner Card (Consistent Premium White Theme - Green Accents) -->
+                        <div class="bg-white p-6 sm:p-8 rounded-2xl border border-brandLeaf/20 premium-shadow-sm hover:premium-shadow-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden group hover:-translate-y-0.5">
+                            <!-- Premium green subtle gradient line on top -->
+                            <div class="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-brandLeaf via-emerald-500 to-brandLeaf/30"></div>
+                            
+                            <div class="relative z-10">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-xs uppercase font-extrabold bg-gradient-to-r from-brandLeaf to-[#275220] bg-clip-text text-transparent tracking-widest">ডিজিটাল ও কারিগরি পার্টনার</h3>
+                                    <div class="w-8 h-8 rounded-lg bg-brandLeaf/5 border border-brandLeaf/15 flex items-center justify-center text-brandLeaf group-hover:rotate-12 transition-all">
+                                        <i data-lucide="sparkles" class="w-4 h-4"></i>
+                                    </div>
+                                </div>
+                                <h4 class="text-lg font-bold text-brandForest mb-2">${team.partner.name}</h4>
+                                <span class="text-xs bg-gradient-to-r from-brandLeaf to-emerald-600 text-white font-extrabold px-3.5 py-1 rounded-full inline-block mb-4 shadow-sm">${team.partner.designation}</span>
+                                <p class="text-sm text-brandForest/80 leading-relaxed font-semibold text-justify border-t border-brandCream pt-4">${team.partner.role}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Animation triggers
+        function setupAnimations() {
+            // GSAP ScrollTrigger setups
+            gsap.registerPlugin(ScrollTrigger);
+
+            gsap.from("#about h2, #about p", {
+                scrollTrigger: {
+                    trigger: "#about",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                y: 20,
+                duration: 0.8,
+                stagger: 0.2
+            });
+
+            gsap.from("#calendar-card", {
+                scrollTrigger: {
+                    trigger: "#calendar",
+                    start: "top 80%",
+                },
+                opacity: 0,
+                scale: 0.95,
+                duration: 0.8
+            });
+
+        }
+
+        function celebrateQuiz() {
+            if (typeof gsap === 'undefined') return;
+            const container = document.getElementById('quiz');
+            if (!container) return;
+
+            const finalScore = score * 2;
+            if (finalScore >= 5) {
+                const rect = container.getBoundingClientRect();
+                // Trigger multiple firework explosions
+                setTimeout(() => createFirework(rect.width * 0.25, rect.height * 0.4, container), 100);
+                setTimeout(() => createFirework(rect.width * 0.75, rect.height * 0.4, container), 400);
+                setTimeout(() => createFirework(rect.width * 0.5, rect.height * 0.25, container), 750);
+            }
+
+            // Create 80 confetti particles
+            for (let i = 0; i < 80; i++) {
+                const confetti = document.createElement('div');
+                confetti.className = 'absolute pointer-events-none rounded-sm';
+                
+                // Random styles
+                const colors = ['#F2A900', '#4E7844', '#FFD700', '#FF8C00', '#FF4500', '#9ACD32', '#20B2AA'];
+                const randomColor = colors[Math.floor(Math.random() * colors.length)];
+                const randomWidth = Math.floor(Math.random() * 8) + 6;
+                const randomHeight = Math.floor(Math.random() * 12) + 6;
+                
+                confetti.style.backgroundColor = randomColor;
+                confetti.style.width = randomWidth + 'px';
+                confetti.style.height = randomHeight + 'px';
+                confetti.style.zIndex = '50';
+                
+                // Position relative to quiz section
+                const rect = container.getBoundingClientRect();
+                const startX = rect.width / 2 + (Math.random() - 0.5) * 160;
+                const startY = rect.height / 2 + (Math.random() - 0.5) * 50;
+                
+                confetti.style.left = startX + 'px';
+                confetti.style.top = startY + 'px';
+                
+                container.appendChild(confetti);
+                
+                // Animate
+                const angle = Math.random() * Math.PI * 2;
+                const velocity = Math.random() * 250 + 150;
+                
+                gsap.timeline({
+                    onComplete: () => confetti.remove()
+                })
+                .to(confetti, {
+                    x: Math.cos(angle) * velocity,
+                    y: -Math.random() * 250 - 100,
+                    rotation: Math.random() * 720,
+                    duration: 0.8,
+                    ease: "power2.out"
+                })
+                .to(confetti, {
+                    y: `+=${Math.random() * 300 + 300}`,
+                    x: `+=${(Math.random() - 0.5) * 120}`,
+                    opacity: 0,
+                    rotation: Math.random() * 360,
+                    duration: 1.6,
+                    ease: "power1.inOut"
+                });
+            }
+        }
+
+        function createFirework(x, y, container) {
+            const colors = ['#FF4500', '#FFD700', '#FF1493', '#00FFFF', '#ADFF2F', '#FF8C00'];
+            const sparkCount = 30;
+            
+            for (let i = 0; i < sparkCount; i++) {
+                const spark = document.createElement('div');
+                spark.className = 'absolute pointer-events-none rounded-full';
+                const size = Math.random() * 5 + 3;
+                spark.style.width = size + 'px';
+                spark.style.height = size + 'px';
+                spark.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                spark.style.left = x + 'px';
+                spark.style.top = y + 'px';
+                spark.style.zIndex = '60';
+                spark.style.boxShadow = `0 0 8px ${spark.style.backgroundColor}`;
+                
+                container.appendChild(spark);
+                
+                const angle = (i / sparkCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.5;
+                const distance = Math.random() * 120 + 80;
+                
+                gsap.to(spark, {
+                    x: Math.cos(angle) * distance,
+                    y: Math.sin(angle) * distance + 50,
+                    opacity: 0,
+                    scale: 0.2,
+                    duration: 1.2 + Math.random() * 0.4,
+                    ease: "power2.out",
+                    onComplete: () => spark.remove()
+                });
+            }
+        }
+
+        function shareOnWhatsApp(finalScore) {
+            const text = `আমি ফল বাগান কুইজ খেলে ১০ এর মধ্যে ${finalScore} স্কোর করেছি! আপনিও খেলে আপনার স্কোর জানুন: https://fruit.dremoy.com/#quiz`;
+            const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
+            window.open(url, '_blank');
+        }
+    </script>
+</body>
+</html>
+
+
