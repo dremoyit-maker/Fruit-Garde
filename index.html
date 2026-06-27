@@ -179,6 +179,47 @@
         .custom-scrollbar::-webkit-scrollbar-track {
             background: transparent;
         }
+
+        /* Animated Gradient Borders */
+        @keyframes border-gradient-anim {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .anim-border-gold, .anim-border-silver, .anim-border-bronze, .anim-border-default {
+            position: relative !important;
+            overflow: hidden !important;
+            background-color: #F3F7FF !important;
+            background-image: none !important;
+            border: none !important;
+        }
+        .anim-border-gold::after, .anim-border-silver::after, .anim-border-bronze::after, .anim-border-default::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-size: 300% 300%;
+            animation: border-gradient-anim 6s ease infinite;
+            z-index: 10;
+        }
+        .anim-border-gold::after {
+            background-image: linear-gradient(90deg, #FF2E93, #FF8A00, #3B82F6, #FF2E93);
+            animation-duration: 4s;
+        }
+        .anim-border-silver::after {
+            background-image: linear-gradient(90deg, #3B82F6, #60A5FA, #3B82F6);
+            animation-duration: 5s;
+        }
+        .anim-border-bronze::after {
+            background-image: linear-gradient(90deg, #8B5CF6, #EC4899, #8B5CF6);
+            animation-duration: 5s;
+        }
+        .anim-border-default::after {
+            background-image: linear-gradient(90deg, #EC4899, #3B82F6, #EC4899);
+            animation-duration: 6s;
+        }
     </style>
 </head>
 <body class="font-sans antialiased selection:bg-brandLeaf selection:text-white overflow-x-hidden">
@@ -205,6 +246,7 @@
                 <a href="#nutrition" class="hover:text-brandLeaf transition-colors">পুষ্টি তুলনা</a>
                 <a href="#explore" class="hover:text-brandLeaf transition-colors">ফল অন্বেষণ</a>
                 <a href="#quiz" class="hover:text-brandLeaf transition-colors">ফল কুইজ</a>
+                <a href="#leaderboard" class="hover:text-brandLeaf transition-colors">স্কোরবোর্ড</a>
                 <a href="#team" class="hover:text-brandLeaf transition-colors">গবেষক দল</a>
             </nav>
             <!-- Search & Actions -->
@@ -225,6 +267,7 @@
             <a href="#nutrition" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">পুষ্টি তুলনা</a>
             <a href="#explore" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">ফল অন্বেষণ</a>
             <a href="#quiz" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">ফল কুইজ</a>
+            <a href="#leaderboard" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">স্কোরবোর্ড</a>
             <a href="#team" class="py-1 hover:text-brandLeaf" onclick="toggleMobileMenu()">গবেষক দল</a>
         </div>
     </header>
@@ -390,6 +433,30 @@
             <!-- Quiz Body -->
             <div id="quiz-container">
                 <!-- Dynamically generated quiz questions -->
+            </div>
+        </div>
+    </section>
+
+    <!-- Quiz Leaderboard Section -->
+    <section id="leaderboard" class="py-20 px-4 max-w-4xl mx-auto scroll-mt-16">
+        <div class="bg-gradient-to-br from-[#1C2A14] to-[#0C1409] p-6 sm:p-10 rounded-3xl premium-shadow-lg relative overflow-hidden border border-brandLeaf/20">
+            <div class="absolute inset-0 botanical-bg-texture opacity-10 pointer-events-none"></div>
+            
+            <div class="relative z-10">
+                <div class="text-center mb-10 flex flex-col items-center">
+                    <div class="w-14 h-14 rounded-full bg-brandGold/20 flex items-center justify-center text-brandGold mb-3 shadow-inner">
+                        <i data-lucide="crown" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-3xl font-bold font-cursive text-brandGold">অনলাইন লাইভ স্কোরবোর্ড</h3>
+                    <p class="text-brandCream/70 text-xs sm:text-sm mt-1">কুইজে সর্বোচ্চ স্কোর অর্জনকারী বিজয়ীদের তালিকা</p>
+                </div>
+                
+                <!-- Leaderboard List -->
+                <div class="space-y-3" id="leaderboard-list">
+                    <div id="leaderboard-loading" class="py-12 text-center text-brandCream/40 font-semibold bg-[#1C2A14]/40 border border-brandLeaf/10 rounded-xl">
+                        <span class="inline-block animate-pulse text-sm">স্কোরবোর্ড লোড হচ্ছে...</span>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -976,73 +1043,178 @@
         let quizData = [
   {
     "id": 1,
-    "question": "কোন ফলকে বাংলাদেশের 'জাতীয় ফল' হিসেবে ঘোষণা করা হয়েছে?",
+    "question": "বাংলাদেশের জাতীয় ফল কোনটি বলতো?",
     "options": ["আম", "কাঁঠাল", "জাম", "নারকেল"],
     "answer": 1,
-    "explanation": "কাঁঠাল বাংলাদেশের জাতীয় ফল। এটি পুষ্টিগুণে ভরপুর এবং এর কাঠও অত্যন্ত মূল্যবান।"
+    "explanation": "কাঁঠাল আমাদের জাতীয় ফল। এটি খেতে যেমন মিষ্টি ও পুষ্টিকর, এর কাঠও কিন্তু খুব কাজের।"
   },
   {
     "id": 2,
-    "question": "সবুজ ও কাঁচা অবস্থায় অত্যন্ত টক কিন্তু পাকলে মিষ্টি ও সুস্বাদু হয় কোন ফলটি?",
+    "question": "কাঁচা থাকতে একদম টক কিন্তু পাকলে দারুণ মিষ্টি লাগে—এমন ফল নিচের কোনটি?",
     "options": ["কামরাঙ্গা", "আম", "তেঁতুল", "সবগুলোই"],
     "answer": 3,
-    "explanation": "আম, কামরাঙ্গা ও তেঁতুলের মতো অনেক ফলই কাঁচা অবস্থায় টক থাকে এবং পাকলে চমৎকার মিষ্টি হয়।"
+    "explanation": "আম, কামরাঙ্গা, তেঁতুলের মতো অনেক ফলই কাঁচা থাকতে খুব টক হয়, কিন্তু পেকে গেলে চমৎকার মিষ্টি হয়ে যায়।"
   },
   {
     "id": 3,
-    "question": "আড়াআড়ি বা স্লাইস করে কাটলে কোন ফলের আকৃতি একটি নিখুঁত তারকার (Star) মতো দেখায়?",
+    "question": "কোন ফলটি আড়াআড়ি বা স্লাইস করে কাটলে দেখতে একদম আকাশের তারার (Star) মতো দেখায়?",
     "options": ["আমড়া", "কামরাঙ্গা", "জামরুল", "লটকন"],
     "answer": 1,
-    "explanation": "কামরাঙ্গা আড়াআড়ি কাটলে দেখতে তারার মতো দেখায়। এ কারণেই এর ইংরেজি নাম 'Star Fruit'।"
+    "explanation": "কামরাঙ্গা কাটলে দেখতে তারার মতো লাগে বলেই এর ইংরেজি নাম 'Star Fruit'।"
   },
   {
     "id": 4,
-    "question": "কোন ফলের পুষ্টিগুণ আপেলের চেয়েও প্রায় কয়েকগুণ বেশি এবং বরিশালে খুব ভালো জন্মায়?",
+    "question": "আপেলের চেয়েও অনেক বেশি পুষ্টিগুণ আছে কোন ফলে, যা বরিশালে প্রচুর পরিমাণে জন্মায়?",
     "options": ["আমড়া", "পেয়ারা", "লিচু", "কামরাঙ্গা"],
     "answer": 0,
-    "explanation": "আমড়াতে আপেলের চেয়েও বেশি ক্যালসিয়াম ও ভিটামিন সি থাকে। বরিশালের আমড়া এর সুস্বাদু স্বাদের জন্য বিখ্যাত।"
+    "explanation": "আমড়াতে আপেলের চেয়েও বেশি ক্যালসিয়াম ও ভিটামিন সি থাকে। আর বরিশালের আমড়ার স্বাদ তো সবারই চেনা!"
   },
   {
     "id": 5,
-    "question": "নিচের কোনটি প্রধানত বর্ষাকালে পাওয়া যায় এবং টক-মিষ্টি স্বাদের ভেষজ ফল?",
+    "question": "নিচের কোন টক-মিষ্টি ফলটি প্রধানত বর্ষাকালে পাওয়া যায় এবং রোগ প্রতিরোধে সাহায্য করে?",
     "options": ["আমড়া", "কাঁঠাল", "লিচু", "জাম"],
     "answer": 0,
-    "explanation": "আমড়া প্রধানত বর্ষা ও শরৎকালে পাওয়া যায় এবং এটি ভিটামিন সি সমৃদ্ধ একটি ভেষজ ফল।"
+    "explanation": "বর্ষা ও শরৎকালে আমড়া প্রচুর পাওয়া যায়, যা ভিটামিন সি-তে ভরপুর।"
   },
   {
     "id": 6,
-    "question": "কোন ফলকে 'ফলের রাজা' বলা হয় এবং এটি প্রধানত গ্রীষ্মকালে পাওয়া যায়?",
+    "question": "কাকে 'ফলের রাজা' বলা হয় এবং যা সাধারণত আমরা গরমের দিনে পেয়ে থাকি?",
     "options": ["লিচু", "আম", "কাঁঠাল", "পেয়ারা"],
     "answer": 1,
-    "explanation": "আমকে ফলের রাজা বলা হয়। এটি অত্যন্ত সুস্বাদু এবং গ্রীষ্মকালের অন্যতম জনপ্রিয় ফল।"
+    "explanation": "আমকে ফলের রাজা বলা হয়। মিষ্টি আর রসালো আমের স্বাদ সত্যিই অতুলনীয়।"
   },
   {
     "id": 7,
-    "question": "কোন ফলে প্রচুর পরিমাণে ভিটামিন সি থাকে যা শরীরের রোগ প্রতিরোধ ক্ষমতা বাড়ায়?",
+    "question": "ঠান্ডা বা সর্দি-কাশি থেকে বাঁচতে কোন ফলে প্রচুর পরিমাণে ভিটামিন সি পাওয়া যায়?",
     "options": ["আমড়া", "কামরাঙ্গা", "পেয়ারা", "সবগুলোই"],
     "answer": 3,
-    "explanation": "আমড়া, কামরাঙ্গা এবং পেয়ারা—সবগুলো ফলেই উচ্চ মাত্রায় ভিটামিন সি থাকে যা রোগ প্রতিরোধ ক্ষমতা বাড়ায়।"
+    "explanation": "আমড়া, কামরাঙ্গা ও পেয়ারা—সবগুলো ফলেই প্রচুর ভিটামিন সি থাকে যা আমাদের সুস্থ রাখে।"
   },
   {
     "id": 8,
-    "question": "কোন ফলের শতকরা ৯২ ভাগই জলীয় অংশ, যা তীব্র গরমে শরীর হাইড্রেট রাখতে সাহায্য করে?",
+    "question": "গরমে গা জুড়াতে কোন ফলটি দারুণ কাজ করে, যার ৯২ ভাগ অংশই আসলে পানি?",
     "options": ["আনারস", "তরমুজ", "ডাব", "লিচু"],
     "answer": 1,
-    "explanation": "তরমুজের প্রায় ৯২% পানি, যা গ্রীষ্মকালে প্রাকৃতিকভাবে শরীরকে সতেজ রাখতে অতুলনীয়।"
+    "explanation": "তরমুজের প্রায় ৯২% পানি, যা গরমের দিনে শরীরকে সতেজ রাখতে সাহায্য করে।"
   },
   {
     "id": 9,
-    "question": "কোন ফলটি সেদ্ধ করে লবন-মরিচ দিয়ে মেখে খাওয়া এবং এর ঝাল-মিষ্টি আচার তৈরি করা হয়?",
+    "question": "কোন ফলটি সেদ্ধ করে লবণ-মরিচ দিয়ে মেখে খেতে বা আচার বানিয়ে খেতে আমরা খুব পছন্দ করি?",
     "options": ["জলপাই", "বেল", "কালোজাম", "কাঁঠাল"],
     "answer": 0,
-    "explanation": "জলপাই দিয়ে অত্যন্ত সুস্বাদু ঝাল-মিষ্টি আচার তৈরি করা হয় যা বাঙালির অত্যন্ত প্রিয়।"
+    "explanation": "জলপাইয়ের টক-মিষ্টি আচার বাঙালির ঘরের অন্যতম প্রিয় খাবার।"
   },
   {
     "id": 10,
-    "question": "কোন ফলের বীজ তরকারি হিসেবে রান্না করে কিংবা আগুনে পুড়িয়ে খাওয়া যায়?",
-    "options": ["আম", "কাঁঠাল", "পেয়ারা", "বরই"],
+    "question": "কাঁঠাল খাওয়ার পর এর কোন অংশটি আমরা ফেলে না দিয়ে তরকারি হিসেবে রান্না করে বা পুড়িয়ে খাই?",
+    "options": ["কাঁঠালের বীজ", "কাঁঠালের খোসা", "কাঁঠালের ভুতি", "কোনোটিই নয়"],
+    "answer": 0,
+    "explanation": "কাঁঠালের বীজ অত্যন্ত পুষ্টিকর। এটি সবজি হিসেবে বা ভেজে খাওয়া অনেক সুস্বাদু।"
+  },
+  {
+    "id": 11,
+    "question": "অন্য সব ফলের বীজ ভেতরে থাকলেও, কোন ফলের খোসার বাইরে ছোট ছোট দানার মতো বীজ থাকে?",
+    "options": ["স্ট্রবেরি", "আতা", "ডালিম", "লটকন"],
+    "answer": 0,
+    "explanation": "স্ট্রবেরি একমাত্র ফল যার বীজ ফলের ভেতরে নয়, বরং খোসার বাইরের স্তরে সাজানো থাকে।"
+  },
+  {
+    "id": 12,
+    "question": "নরসিংদীর খুব জনপ্রিয় কোন ফলটি গাছের ডালে না ধরে সরাসরি গাছের কাণ্ডে থোকায় থোকায় ঝুলে থাকে?",
+    "options": ["ডেউয়া", "লটকন", "করমচা", "আম"],
     "answer": 1,
-    "explanation": "কাঁঠালের বীজ প্রোটিন সমৃদ্ধ এবং এটি তরকারি হিসেবে রান্না করে বা পুড়িয়ে খাওয়া অত্যন্ত সুস্বাদু।"
+    "explanation": "লটকন সরাসরি গাছের কাণ্ডে ধরে। নরসিংদীর লটকন এর চমৎকার স্বাদের জন্য দেশজুড়ে বিখ্যাত।"
+  },
+  {
+    "id": 13,
+    "question": "রোদে ক্লান্ত হয়ে বাড়ি ফিরলে শরীর রিচার্জ করতে প্রাকৃতিক স্যালাইন হিসেবে কোন ফলের পানি খাওয়া যায়?",
+    "options": ["তরমুজ", "ডাব", "লেবু", "আনারস"],
+    "answer": 1,
+    "explanation": "ডাবের কচি পানি প্রাকৃতিকভাবে সম্পূর্ণ বিশুদ্ধ এবং শরীরের ক্লান্তি দূর করতে দারুণ উপকারী।"
+  },
+  {
+    "id": 14,
+    "question": "কমলার চেয়েও প্রায় ৪ গুণ বেশি ভিটামিন সি আছে কোন ফলে, যার স্বরূপকাঠিতে ভাসমান হাট রয়েছে?",
+    "options": ["আমড়া", "পেয়ারা", "লিচু", "কামরাঙ্গা"],
+    "answer": 1,
+    "explanation": "পেয়ারাতে প্রচুর ভিটামিন সি থাকে। স্বরূপকাঠির খালের মধ্যে ভাসমান পেয়ারার হাট দেখতে কিন্তু খুব সুন্দর!"
+  },
+  {
+    "id": 15,
+    "question": "শীতের সকালে মাটির হাঁড়িতে কোন গাছের মিষ্টি রস খাওয়ার জন্য আমরা অধীর আগ্রহে অপেক্ষা করি?",
+    "options": ["তাল গাছ", "খেজুর গাছ", "নারকেল গাছ", "শাল গাছ"],
+    "answer": 1,
+    "explanation": "খেজুরের রস জ্বাল দিয়ে চমৎকার পাটালি গুড় ও পিঠা তৈরি করা হয়, যা শীতের আমেজ দ্বিগুণ করে দেয়।"
+  },
+  {
+    "id": 16,
+    "question": "হাতিরা এই ফলটি খেতে খুব পছন্দ করে বলে একে ইংরেজিতে \"Elephant Apple\" বলা হয়—ফলটি কী?",
+    "options": ["কদবেল", "चालতা", "বেল", "আমড়া"],
+    "answer": 1,
+    "explanation": "চালতা ফলটি হাতিদের খুব প্রিয় খাবার, তাই একে ইংরেজিতে Elephant Apple বলা হয়।"
+  },
+  {
+    "id": 17,
+    "question": "কোন ফলের ভেতরের নরম কোষগুলো চামচ দিয়ে বা হাত দিয়ে মুখে দিলে একদম গলে যায় আর যার আরেক নাম শরিফা?",
+    "options": ["আতা", "বেল", "কাঁঠাল", "নারকেল"],
+    "answer": 0,
+    "explanation": "মিষ্টি ও নরম আতা ফলকে আমাদের দেশে অনেকে শরিফা নামেও ডেকে থাকে।"
+  },
+  {
+    "id": 18,
+    "question": "পেটের গোলমাল দূর করতে আর গরমের ক্লান্তি কাটাতে বেলের শরবত দারুণ কাজ করে। বেলের খোসা কেমন হয়?",
+    "options": ["খুবই নরম", "পাথরের মতো শক্ত", "পাতলা চামড়ার মতো", "কোনো খোসাই থাকে না"],
+    "answer": 1,
+    "explanation": "বেলের খোসা কাঠের মতো বা পাথরের মতো শক্ত হয়, যা ফাটিয়ে ভেতরের সুস্বাদু অংশ বের করতে হয়।"
+  },
+  {
+    "id": 19,
+    "question": "দুপুরে বন্ধুদের সাথে জম্পেশ আড্ডায় কোন ফলটি খেলেই সবার জিবের রঙ একদম বেগুনি হয়ে যায়?",
+    "options": ["কালোজাম", "লটকন", "স্ট্রবেরি", "করমচা"],
+    "answer": 0,
+    "explanation": "জামে থাকা প্রাকৃতিক রঙের কারণে এটি খেলে জিব ও ঠোঁটের রঙ সাময়িকভাবে বেগুনি হয়ে যায়।"
+  },
+  {
+    "id": 20,
+    "question": "কলা গাছকে আমরা গাছ বললেও বৈজ্ঞানিক দিক দিয়ে এটি আসলে কী ধরণের উদ্ভিদ?",
+    "options": ["কাষ্ঠল গাছ", "তৃণজাতীয় বা ভেষজ উদ্ভিদ", "পরজীবী লতা", "মরুজ উদ্ভিদ"],
+    "answer": 1,
+    "explanation": "কলা গাছের কোনো কাণ্ড কাঠের নয়, তাই এটি আসলে পৃথিবীর সবচেয়ে বড় ঘাস বা তৃণজাতীয় উদ্ভিদ।"
+  },
+  {
+    "id": 21,
+    "question": "কাঁচা থাকতে তরকারি হিসেবে এবং রান্না করার সময় শক্ত মাংস নরম করতে কোন ফল ব্যবহার করা হয়?",
+    "options": ["পেঁপে", "কলা", "বেল", "কামরাঙ্গা"],
+    "answer": 0,
+    "explanation": "কাঁচা পেঁপেতে প্যাপেইন নামের এক ধরণের উপাদান থাকে, যা মাংস সহজে সেদ্ধ করতে সাহায্য করে।"
+  },
+  {
+    "id": 22,
+    "question": "কাঁটাযুক্ত গাছে ধরা ছোট চেরির মতো টকটকে লাল ও টক স্বাদের এই ফলটি দেখতে কিন্তু অসাধারণ লাগে। এটি কী?",
+    "options": ["লটকন", "করমচা", "ডেউয়া", "আমড়া"],
+    "answer": 1,
+    "explanation": "করমচা ছোট চেরির মতো দেখতে খুব আকর্ষণীয় লাল ফল হলেও এটি কিন্তু খেতে বেশ টক!"
+  },
+  {
+    "id": 23,
+    "question": "অনেকগুলো ছোট ফল একসাথে মিলে একটা বড় রসালো আনারস তৈরি করে। বাংলাদেশের কোন অঞ্চলের আনারস খুব বিখ্যাত?",
+    "options": ["মধুপুর", "স্বরূপকাঠি", "শ্রীমঙ্গল", "রাজশাহী"],
+    "answer": 0,
+    "explanation": "টাঙ্গাইলের মধুপুর এলাকার আনারস মিষ্টি ও রসালো হওয়ার কারণে দেশজুড়ে সুপরিচিত।"
+  },
+  {
+    "id": 24,
+    "question": "গ্রীষ্মের গরমে কচি তালের ভেতরের যে নরম রসালো অংশ আমরা চামচ দিয়ে তুলে খাই, তাকে কী বলে?",
+    "options": ["তালের শাঁস বা আশারি", "তালের বড়া", "তালমিছরি", "তালের আঁটি"],
+    "answer": 0,
+    "explanation": "কচি তালের ভেতরের নরম ও রসালো অংশকে তালের শাঁস বা আঞ্চলিক ভাষায় তালের আশারি বলা হয়।"
+  },
+  {
+    "id": 25,
+    "question": "\"প্রতিদিন একটা খেলে আর ডাক্তারের কাছে যাওয়া লাগে না\"—এই বিখ্যাত প্রবাদটি কোন ফলকে নিয়ে?",
+    "options": ["আপেল", "আঙ্গুর", "কমলা", "স্ট্রবেরি"],
+    "answer": 0,
+    "explanation": "আপেল অত্যন্ত পুষ্টিকর ও ফাইবার সমৃদ্ধ হওয়ায় একে নিয়ে ইংরেজিতে প্রবাদ আছে: \"An apple a day keeps the doctor away.\""
   }
 ];
         let teamData = {
@@ -1078,6 +1250,9 @@
         let currentQuizIndex = 0;
         let score = 0;
         let activeQuizQuestions = [];
+        let participantName = "";
+        let participantRole = "";
+        let quizStarted = false;
 
         // Slideshow images & stats configuration for About section
         const aboutSlides = [
@@ -1353,7 +1528,7 @@
             }
             
             // Dynamic Active Menu Indicator
-            const sections = ['about', 'calendar', 'nutrition', 'explore', 'quiz', 'team'];
+            const sections = ['about', 'calendar', 'nutrition', 'explore', 'quiz', 'leaderboard', 'team'];
             let currentActive = "";
             sections.forEach(secId => {
                 const sec = document.getElementById(secId);
@@ -1386,6 +1561,7 @@
             selectRandomQuestions();
             renderQuiz();
             renderTeam(teamData);
+            fetchLeaderboard();
 
             // Generate Quiz QR Code locally
             setTimeout(() => {
@@ -1773,6 +1949,45 @@
         // Quiz Engine Render
         function renderQuiz() {
             const container = document.getElementById('quiz-container');
+            if (!quizStarted) {
+                // Initial Registration State
+                container.innerHTML = `
+                <div class="text-center py-4 max-w-sm mx-auto">
+                    <div class="w-16 h-16 rounded-full bg-brandLeaf/10 flex items-center justify-center text-brandLeaf mx-auto mb-4">
+                        <i data-lucide="trophy" class="w-8 h-8 text-brandGold animate-bounce"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-brandForest mb-2">ফল কুইজে স্বাগতম!</h3>
+                    <p class="text-xs sm:text-sm text-brandForest/60 mb-6">কুইজে অংশ নিয়ে আপনার জ্ঞান যাচাই করুন এবং স্কোরবোর্ডে নাম তুলুন।</p>
+                    
+                    <form onsubmit="startQuiz(event)" class="space-y-4 text-left">
+                        <div>
+                            <label for="quiz-reg-name" class="text-xs font-bold text-brandForest/70 block mb-1">১. প্রতিযোগীর নাম:</label>
+                            <input type="text" id="quiz-reg-name" required placeholder="আপনার নাম লিখুন..." class="w-full bg-white border border-brandLeaf/20 rounded-xl px-4 py-2.5 text-xs focus:outline-none focus:border-brandLeaf transition-all font-semibold shadow-sm">
+                        </div>
+                        <div>
+                            <label class="text-xs font-bold text-brandForest/70 block mb-1.5">২. আপনার পরিচয়:</label>
+                            <div class="flex gap-4">
+                                <label class="flex items-center gap-1.5 text-xs font-semibold text-brandForest cursor-pointer">
+                                    <input type="radio" name="quiz-reg-role" value="ছাত্র/ছাত্রী" checked class="w-3.5 h-3.5 accent-brandLeaf">
+                                    <span>ছাত্র/ছাত্রী</span>
+                                </label>
+                                <label class="flex items-center gap-1.5 text-xs font-semibold text-brandForest cursor-pointer">
+                                    <input type="radio" name="quiz-reg-role" value="অভিভাবক" class="w-3.5 h-3.5 accent-brandLeaf">
+                                    <span>অভিভাবক</span>
+                                </label>
+                            </div>
+                        </div>
+                        <button type="submit" class="w-full bg-brandLeaf hover:bg-brandLeaf/95 text-white font-bold text-sm py-3 rounded-full transition-all shadow-md flex items-center justify-center gap-2 mt-4 transform hover:scale-[1.02]">
+                            <span>কুইজ শুরু করুন</span>
+                            <i data-lucide="play" class="w-4 h-4"></i>
+                        </button>
+                    </form>
+                </div>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
             if (currentQuizIndex >= activeQuizQuestions.length) {
                 // Completed State
                 let congratsTitle = "কুইজ সম্পন্ন হয়েছে!";
@@ -1791,6 +2006,7 @@
                 }
 
                 let couponHTML = "";
+                let submissionStatusHTML = "";
                 if (finalScore >= 8) {
                     couponHTML = `
                     <div class="mt-6 p-6 border-2 border-dashed border-brandGold bg-brandCream/80 rounded-2xl max-w-sm mx-auto shadow-sm">
@@ -1804,6 +2020,14 @@
                         </p>
                     </div>
                     `;
+                    submissionStatusHTML = `
+                    <div class="mt-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-2xl text-center font-bold text-sm max-w-sm mx-auto shadow-sm flex items-center justify-center gap-2">
+                        <span class="inline-block animate-spin rounded-full h-4 w-4 border-2 border-green-800 border-t-transparent" id="submitting-spinner"></span>
+                        <span id="submitting-text">স্কোরবোর্ডে নাম যোগ করা হচ্ছে...</span>
+                    </div>
+                    `;
+                    // Trigger background auto submission
+                    autoSubmitScore(finalScore);
                 }
 
                 container.innerHTML = `
@@ -1811,8 +2035,10 @@
                         <i data-lucide="award" class="w-16 h-16 text-brandGold mx-auto mb-4"></i>
                         <h3 class="text-2xl font-bold text-brandForest mb-2">${congratsTitle}</h3>
                         <p class="text-sm text-brandForest/80 max-w-md mx-auto mb-4 font-semibold">${congratsText}</p>
+                        <p class="text-sm text-brandForest/60 mb-4">প্রতিযোগী: <strong>${participantName}</strong> (${participantRole})</p>
                         <p class="text-sm text-brandForest/60 mb-6">১০ এর মধ্যে আপনার স্কোর: <strong class="text-brandLeaf text-lg">${finalScore}</strong></p>
                         ${couponHTML}
+                        ${submissionStatusHTML}
                         <div class="flex flex-wrap justify-center gap-3 mt-6">
                             <button onclick="restartQuiz()" class="bg-brandLeaf hover:bg-brandLeaf/95 text-white font-bold text-xs sm:text-sm px-6 py-2.5 rounded-full transition-all">
                                 আবার শুরু করুন
@@ -1899,11 +2125,78 @@
         }
 
         function restartQuiz() {
+            participantName = "";
+            participantRole = "";
+            quizStarted = false;
             currentQuizIndex = 0;
             score = 0;
-            selectedAnsIndex = null;
-            selectRandomQuestions();
             renderQuiz();
+        }
+
+        function startQuiz(e) {
+            if (e) e.preventDefault();
+            const nameInput = document.getElementById('quiz-reg-name');
+            const roleSelect = document.querySelector('input[name="quiz-reg-role"]:checked');
+            
+            if (!nameInput || !nameInput.value.trim()) {
+                alert("দয়া করে আপনার নাম লিখুন!");
+                return;
+            }
+            
+            participantName = nameInput.value.trim();
+            participantRole = roleSelect ? roleSelect.value : "ছাত্র/ছাত্রী";
+            quizStarted = true;
+            
+            selectRandomQuestions();
+            currentQuizIndex = 0;
+            score = 0;
+            renderQuiz();
+        }
+
+        async function autoSubmitScore(finalScore) {
+            const scoreEntry = {
+                name: participantName,
+                role: participantRole,
+                score: finalScore,
+                timestamp: new Date().toISOString()
+            };
+
+            let success = false;
+            if (SCRIPT_URL) {
+                try {
+                    const response = await fetch(SCRIPT_URL, {
+                        method: 'POST',
+                        mode: 'no-cors',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify(scoreEntry)
+                    });
+                    success = true;
+                } catch (err) {
+                    console.error("Error auto submitting score:", err);
+                }
+            }
+
+            // Save locally too for backup
+            const localScores = JSON.parse(localStorage.getItem(LOCAL_SCORES_KEY) || "[]");
+            localScores.push(scoreEntry);
+            localStorage.setItem(LOCAL_SCORES_KEY, JSON.stringify(localScores));
+
+            if (!SCRIPT_URL) success = true;
+
+            setTimeout(() => {
+                const textEl = document.getElementById('submitting-text');
+                const spinnerEl = document.getElementById('submitting-spinner');
+                if (textEl) {
+                    textEl.innerText = "অভিনন্দন! আপনার নাম সফলভাবে স্কোরবোর্ডে যুক্ত করা হয়েছে।";
+                }
+                if (spinnerEl) {
+                    spinnerEl.className = "inline-block text-green-600";
+                    spinnerEl.innerHTML = "✓";
+                }
+                fetchLeaderboard();
+            }, 1200);
         }
 
         // Render Advisors & Students
@@ -2096,8 +2389,129 @@
             const url = `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
             window.open(url, '_blank');
         }
+
+        // Google Sheets Leaderboard Integration
+        const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbzC91mJjK039htK8IPkAJGmxqUAdxSzTI5s5y9Ow-JfFvElZ2J9Kuy5M4dq3o6Yj31dQA/exec";
+        const LOCAL_SCORES_KEY = "fruit_quiz_scores";
+
+        async function fetchLeaderboard() {
+            const listContainer = document.getElementById('leaderboard-list');
+            if (!listContainer) return;
+
+            if (SCRIPT_URL) {
+                try {
+                    const res = await fetch(SCRIPT_URL);
+                    if (res.ok) {
+                        const data = await res.json();
+                        renderLeaderboardRows(data);
+                        return;
+                    }
+                } catch (e) {
+                    console.error("Error fetching online leaderboard, falling back to local:", e);
+                }
+            }
+
+            // Fallback to local storage
+            const localScores = JSON.parse(localStorage.getItem(LOCAL_SCORES_KEY) || "[]");
+            localScores.sort((a, b) => b.score - a.score);
+            renderLeaderboardRows(localScores.slice(0, 50));
+        }
+
+        function toBengaliNumber(num) {
+            const banglaDigits = {'0':'০','1':'১','2':'২','3':'৩','4':'৪','5':'৫','6':'৬','7':'৭','8':'৮','9':'৯'};
+            return num.toString().split('').map(digit => banglaDigits[digit] || digit).join('');
+        }
+
+        function renderLeaderboardRows(scores) {
+            const listContainer = document.getElementById('leaderboard-list');
+            if (!listContainer) return;
+
+            // Handle empty state
+            if (!scores || scores.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="py-12 text-center text-brandForest/50 font-semibold bg-brandBg/40 border border-brandLeaf/10 rounded-2xl">
+                        <i data-lucide="award" class="w-12 h-12 text-brandLeaf/30 mx-auto mb-3"></i>
+                        এখনো কোনো বিজয়ী নাম লেখায়নি। প্রথম বিজয়ী হয়ে আপনার নাম লেখান! 🏆
+                    </div>
+                `;
+                if (typeof lucide !== 'undefined') lucide.createIcons();
+                return;
+            }
+
+            // Render List Items
+            listContainer.innerHTML = scores.map((entry, idx) => {
+                let rankBadge = toBengaliNumber(idx + 1);
+                let animBorderClass = "anim-border-default";
+                let rankTextClass = "text-brandForest/70";
+                
+                if (idx === 0) {
+                    animBorderClass = "anim-border-gold";
+                    rankTextClass = "text-brandGold font-extrabold";
+                } else if (idx === 1) {
+                    animBorderClass = "anim-border-silver";
+                    rankTextClass = "text-slate-500 font-extrabold";
+                } else if (idx === 2) {
+                    animBorderClass = "anim-border-bronze";
+                    rankTextClass = "text-amber-700 font-extrabold";
+                } else {
+                    animBorderClass = "anim-border-default";
+                }
+
+                const roleBadge = entry.role === "Student" || entry.role === "ছাত্র/ছাত্রী"
+                    ? '<span class="bg-brandLeaf/10 text-brandLeaf text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1"><i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i>ছাত্র/ছাত্রী</span>'
+                    : '<span class="bg-amber-600/10 text-amber-800 text-[10px] font-extrabold px-2.5 py-0.5 rounded-full shadow-sm flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i>অভিভাবক</span>';
+
+                return `
+                    <div class="flex items-center justify-between py-2 px-4 rounded-xl ${animBorderClass} transition-all duration-300 hover:-translate-y-0.5 shadow-sm group">
+                        <div class="flex items-center gap-3">
+                            <!-- Rank -->
+                            <div class="w-8 h-8 rounded-lg bg-brandBg flex items-center justify-center text-xs font-black ${rankTextClass} shadow-inner border border-brandLeaf/5">
+                                ${rankBadge}
+                            </div>
+                            <!-- Name & Role -->
+                            <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+                                <h4 class="font-bold text-brandForest text-sm sm:text-base group-hover:text-brandLeaf transition-colors">${escapeHTML(entry.name)}</h4>
+                                ${roleBadge}
+                            </div>
+                        </div>
+                        
+                        <!-- Score Display -->
+                        <div class="text-right flex items-center gap-3">
+                            <div class="hidden md:block w-24 bg-brandCream h-2 rounded-full overflow-hidden shadow-inner border border-brandLeaf/5">
+                                <div class="bg-gradient-to-r from-brandLeaf to-emerald-500 h-full rounded-full" style="width: ${entry.score * 10}%"></div>
+                            </div>
+                            <div class="bg-brandLeaf/10 border border-brandLeaf/20 px-3.5 py-1.5 rounded-xl text-center shadow-sm">
+                                <span class="text-xs text-brandForest/60 font-bold block text-[9px] uppercase">স্কোর</span>
+                                <span class="text-sm font-black text-brandLeaf">${entry.score} / 10</span>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+
+            if (typeof lucide !== 'undefined') lucide.createIcons();
+            
+            // GSAP Stagger animation on loading
+            if (typeof gsap !== 'undefined') {
+                gsap.from("#leaderboard-list > div", {
+                    opacity: 0,
+                    y: 15,
+                    duration: 0.5,
+                    stagger: 0.05,
+                    ease: "power2.out"
+                });
+            }
+        }
+
+        function escapeHTML(str) {
+            if (!str) return '';
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
     </script>
 </body>
 </html>
+
 
 
